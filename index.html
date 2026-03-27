@@ -53,7 +53,7 @@
       z-index:0;
     }
 
-    .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+    .container{position:relative;z-index:1;max-width:1280px;margin:0 auto}
     .topBox{text-align:center;margin-bottom:20px}
 
     .logo{
@@ -105,7 +105,7 @@
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
+      grid-template-columns:repeat(3,minmax(0,1fr));
       gap:16px
     }
 
@@ -194,6 +194,45 @@
       line-height:1.8
     }
 
+    .priceBox{
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .priceGrid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .priceItem{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .priceItem h3{
+      margin:0 0 10px;
+      font-size:16px;
+      font-weight:800;
+    }
+
+    .priceValue{
+      font-size:22px;
+      font-weight:800;
+      color:#fff;
+    }
+
+    .priceSub{
+      margin-top:8px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
     .pdf-card{
       position:fixed;
       left:-99999px;
@@ -201,7 +240,7 @@
       width:794px;
       background:#fff;
       color:#111;
-      padding:28px;
+      padding:18px;
       font-family:"Tajawal",sans-serif;
     }
 
@@ -210,38 +249,38 @@
       align-items:center;
       justify-content:space-between;
       border-bottom:2px solid #12324f;
-      padding-bottom:12px;
-      margin-bottom:16px
+      padding-bottom:8px;
+      margin-bottom:10px
     }
 
     .pdf-brand{
-      font-size:26px;
+      font-size:22px;
       font-weight:800;
       color:#12324f
     }
 
     .pdf-sub{
-      font-size:14px;
+      font-size:12px;
       color:#4a5568
     }
 
     .pdf-title{
-      font-size:22px;
+      font-size:18px;
       font-weight:800;
       text-align:center;
-      margin:18px 0;
+      margin:10px 0;
       color:#0b1b2b
     }
 
     .pdf-table{
       width:100%;
       border-collapse:collapse;
-      font-size:14px
+      font-size:11px
     }
 
     .pdf-table th,.pdf-table td{
       border:1px solid #cbd5e0;
-      padding:9px 10px;
+      padding:6px 7px;
       vertical-align:top
     }
 
@@ -258,17 +297,18 @@
     }
 
     .pdf-footer{
-      margin-top:16px;
-      font-size:12px;
+      margin-top:10px;
+      font-size:11px;
       color:#64748b;
       text-align:center
     }
 
-    @media (max-width:900px){
-      .grid{grid-template-columns:1fr}
+    @media (max-width:1000px){
+      .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     }
 
     @media (max-width:768px){
+      .grid,.priceGrid{grid-template-columns:1fr}
       .portalCard{padding:16px;border-radius:22px}
       .logo{width:70px;height:70px;border-radius:18px}
       h1{font-size:34px}
@@ -285,8 +325,8 @@
           <img src="logo.png" alt="SMOU GROUP" onerror="this.style.display='none'">
         </div>
         <h1>طلب عرض السعر</h1>
-<h1>RFQ (Request for Quotation)</h1>
-        <p class="subtitle">نموذج سمو الرسمي لتعبئة بيانات طلب عرض السعر وإصدار تقرير PDF</p>
+        <h1>RFQ (Request for Quotation)</h1>
+        <p class="subtitle">نموذج سمو الرسمي لتعبئة بيانات طلب عرض السعر وحساب الإيطالي والفوجي تلقائيًا</p>
       </div>
 
       <div class="portalCard">
@@ -358,33 +398,33 @@
           </div>
 
           <div class="field">
-            <label class="label">اسم المكتب الاستشاري <small>Consultant Office Name</small></label>
+            <label class="label">اسم المكتب الاستشاري <small>Consultant Office</small></label>
             <input name="consultantOfficeName" placeholder="اسم المكتب الاستشاري">
           </div>
 
           <div class="field">
-            <label class="label">رقم الهاتف <small>Phone Number</small></label>
+            <label class="label">رقم هاتف المكتب الاستشاري <small>Phone Number</small></label>
             <input name="consultantPhone" placeholder="رقم هاتف المكتب الاستشاري">
           </div>
 
           <div class="field">
-            <label class="label">العمولة <small>Commission</small></label>
-            <input type="number" name="consultantCommission" placeholder="العمولة" min="0" step="0.01">
+            <label class="label">عمولة المكتب الاستشاري <small>Commission</small></label>
+            <input type="number" name="consultantCommission" placeholder="بالدرهم" min="0" step="0.01">
           </div>
 
           <div class="field">
-            <label class="label">اسم مكتب المقاول <small>Contractor Office Name</small></label>
+            <label class="label">اسم مكتب المقاول <small>Contractor Office</small></label>
             <input name="contractorOfficeName" placeholder="اسم مكتب المقاول">
           </div>
 
           <div class="field">
-            <label class="label">رقم الهاتف <small>Phone Number</small></label>
+            <label class="label">رقم هاتف مكتب المقاول <small>Phone Number</small></label>
             <input name="contractorPhone" placeholder="رقم هاتف مكتب المقاول">
           </div>
 
           <div class="field">
-            <label class="label">العمولة <small>Commission</small></label>
-            <input type="number" name="contractorCommission" placeholder="العمولة" min="0" step="0.01">
+            <label class="label">عمولة مكتب المقاول <small>Commission</small></label>
+            <input type="number" name="contractorCommission" placeholder="بالدرهم" min="0" step="0.01">
           </div>
 
           <div class="field full">
@@ -392,69 +432,72 @@
           </div>
 
           <div class="field">
-            <label class="label">نوع المصعد <small>Elevator Type</small></label>
+            <label class="label">بيانات المصعد <small>Lift Data</small></label>
             <select name="elevatorType" required>
-              <option value="">اختر نوع المصعد</option>
-              <option>بغرفة محركات</option>
+              <option value="">اختر</option>
+              <option>غرفة محركات</option>
               <option>بدون غرفة محركات</option>
             </select>
           </div>
 
           <div class="field">
             <label class="label">الحمولة <small>Capacity</small></label>
-            <select name="capacity" required>
+            <select name="capacity" id="capacity" required>
               <option value="">اختر الحمولة</option>
-              <option>450 kg</option>
-              <option>630 kg</option>
-              <option>800 kg</option>
-              <option>1000 kg</option>
-              <option>1150 kg</option>
-              <option>1350 kg</option>
-              <option>1600 kg</option>
-              <option>2000 kg</option>
-              <option>أخرى</option>
+              <option value="450kg">450kg</option>
+              <option value="630kg">630kg</option>
+              <option value="800kg">800kg</option>
+              <option value="1000kg">1000kg</option>
+              <option value="1150kg">1150kg</option>
+              <option value="1350kg">1350kg</option>
+              <option value="1600kg">1600kg</option>
+              <option value="2000kg">2000kg</option>
+              <option value="other">أخرى</option>
             </select>
           </div>
 
           <div class="field">
-            <label class="label">عدد الوقفات <small>Number of Stops</small></label>
-            <select name="numberOfStops" required>
+            <label class="label">عدد الوقفات <small>Stops</small></label>
+            <select name="numberOfStops" id="numberOfStops" required>
               <option value="">اختر عدد الوقفات</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-              <option>11</option>
-              <option>12</option>
-              <option>أخرى</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="other">أخرى</option>
             </select>
           </div>
 
           <div class="field">
             <label class="label">الأبواب <small>Doors</small></label>
-            <select name="doors" required>
+            <select name="doors" id="doors" required>
               <option value="">اختر نوع الأبواب</option>
-              <option>فضي</option>
-              <option>ذهبي</option>
-              <option>زجاج</option>
-              <option>روز جولد</option>
+              <option value="فضي">فضي</option>
+              <option value="ذهبي">ذهبي</option>
+              <option value="روزجولد">روزجولد</option>
+              <option value="زجاج">زجاج</option>
+              <option value="زجاج فضي">زجاج فضي</option>
+              <option value="زجاج ذهبي">زجاج ذهبي</option>
+              <option value="زجاج روزجولد">زجاج روزجولد</option>
             </select>
           </div>
 
           <div class="field">
-            <label class="label">الكابينة <small>Cabin</small></label>
-            <select name="cabin" required>
-              <option value="">اختر نوع الكابينة</option>
-              <option>فضي</option>
-              <option>ذهبي</option>
-              <option>زجاج</option>
-              <option>روز جولد</option>
+            <label class="label">لون الكابينة <small>Cabin Color</small></label>
+            <select name="cabin" id="cabin" required>
+              <option value="">اختر لون الكابينة</option>
+              <option value="فضي">فضي</option>
+              <option value="ذهبي">ذهبي</option>
+              <option value="روزجولد">روزجولد</option>
+              <option value="خشبي">خشبي</option>
+              <option value="زجاج">زجاج</option>
             </select>
           </div>
 
@@ -471,62 +514,73 @@
             </select>
           </div>
 
-          <div class="field full">
-            <label class="label">مقاسات البئر <small>Shaft Dimensions</small></label>
+          <div class="field">
+            <label class="label">عرض البئر <small>Width</small></label>
+            <input name="shaftWidth" placeholder="عرض البئر / سم">
           </div>
 
           <div class="field">
-            <label class="label">عرض البئر <small>Shaft Width</small></label>
-            <input name="shaftWidth" placeholder="عرض البئر">
-          </div>
-
-          <div class="field">
-            <label class="label">عمق البئر <small>Shaft Depth</small></label>
-            <input name="shaftDepth" placeholder="عمق البئر">
+            <label class="label">عمق البئر <small>Depth</small></label>
+            <input name="shaftDepth" placeholder="عمق البئر / سم">
           </div>
 
           <div class="field">
             <label class="label">عمق الحفرة <small>Pit Depth</small></label>
-            <input name="pitDepth" placeholder="عمق الحفرة">
+            <input name="pitDepth" placeholder="عمق الحفرة / سم">
           </div>
 
           <div class="field">
-            <label class="label">ارتفاع آخر وقفة <small>Top Floor Height (Overhead)</small></label>
-            <input name="topFloorHeight" placeholder="ارتفاع آخر وقفة">
+            <label class="label">ارتفاع آخر وقفة <small>Overhead Height</small></label>
+            <input name="topFloorHeight" placeholder="ارتفاع آخر وقفة / سم">
+          </div>
+
+          <div class="field">
+            <label class="label">الخصم <small>Discount</small></label>
+            <input type="number" name="discount" id="discount" placeholder="بالدرهم" min="0" step="0.01">
+          </div>
+
+          <div class="field">
+            <label class="label">سعر برج الحديد <small>Steel Structure Price</small></label>
+            <input type="number" name="steelStructure" id="steelStructure" placeholder="بالدرهم" min="0" step="0.01">
           </div>
 
           <div class="field full">
-            <label class="label">عرض السعر <small>Price Offer</small></label>
-          </div>
+            <div class="priceBox">
+              <div class="sectionHeader" style="margin-bottom:14px">
+                <div class="sectionTitle">التسعير التلقائي — Auto Pricing</div>
+                <div class="divider"></div>
+              </div>
 
-          <div class="field">
-            <label class="label">سعر المصعد <small>Elevator Price</small></label>
-            <input type="number" name="elevatorPrice" placeholder="رقم بالدرهم" min="0" step="0.01">
-          </div>
+              <div class="priceGrid">
+                <div class="priceItem">
+                  <h3>سعر المصعد الإيطالي</h3>
+                  <div class="priceValue" id="italianPriceDisplay">0.00 AED</div>
+                  <input type="hidden" name="italianPrice" id="italianPrice">
+                  <div class="priceSub" id="italianPriceBreakdown">-</div>
+                </div>
 
-          <div class="field">
-            <label class="label">إضافة الكابينة <small>Cabin Addition</small></label>
-            <input type="number" name="cabinAddition" placeholder="رقم بالدرهم" min="0" step="0.01">
-          </div>
+                <div class="priceItem">
+                  <h3>سعر المصعد الفوجي</h3>
+                  <div class="priceValue" id="fujiPriceDisplay">0.00 AED</div>
+                  <input type="hidden" name="fujiPrice" id="fujiPrice">
+                  <div class="priceSub" id="fujiPriceBreakdown">-</div>
+                </div>
 
-          <div class="field">
-            <label class="label">إضافة الأبواب <small>Doors Addition</small></label>
-            <input type="number" name="doorsAddition" placeholder="رقم بالدرهم" min="0" step="0.01">
-          </div>
+                <div class="priceItem">
+                  <h3>السعر النهائي الإيطالي</h3>
+                  <div class="priceValue" id="finalItalianPriceDisplay">0.00 AED</div>
+                  <input type="hidden" name="finalItalianPrice" id="finalItalianPrice">
+                  <div class="priceSub" id="finalItalianPriceBreakdown">-</div>
+                </div>
 
-          <div class="field">
-            <label class="label">برج حديد <small>Steel Structure</small></label>
-            <input type="number" name="steelStructure" placeholder="رقم بالدرهم" min="0" step="0.01">
-          </div>
-
-          <div class="field">
-            <label class="label">خصم <small>Discount</small></label>
-            <input type="number" name="discount" placeholder="رقم بالدرهم" min="0" step="0.01">
-          </div>
-
-          <div class="field">
-            <label class="label">السعر النهائي <small>Final Price</small></label>
-            <input type="number" name="finalPrice" id="finalPrice" placeholder="يُحسب تلقائيًا" readonly>
+                <div class="priceItem">
+                  <h3>السعر النهائي الفوجي</h3>
+                  <div class="priceValue" id="finalFujiPriceDisplay">0.00 AED</div>
+                  <input type="hidden" name="finalFujiPrice" id="finalFujiPrice">
+                  <div class="priceSub" id="finalFujiPriceBreakdown">-</div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </form>
@@ -538,10 +592,12 @@
         <div class="status" id="statusText">جاهز لتعبئة نموذج طلب عرض السعر.</div>
 
         <div class="note">
-          هذا الزر ينفذ مسارًا مبسطًا: إنشاء ملف PDF ثم فتح مشاركة واتساب أو نافذة المشاركة بالجهاز حسب المتاح.
-          <br>
-          <strong>ملاحظة:</strong> يتم احتساب السعر النهائي تلقائيًا من خلال:
-          سعر المصعد + إضافة الكابينة + إضافة الأبواب + برج حديد + العمولة - الخصم
+          <strong>آلية الحساب:</strong><br>
+          يتم احتساب السعر الأساسي من الجدول لكل من الإيطالي والفوجي بأخذ <strong>الأعلى</strong> بين سعر الحمولة وسعر الوقفات.<br>
+          ثم تضاف تكلفة الأبواب والكابينة حسب الجدول.<br>
+          <strong>الإيطالي:</strong> تكلفة الأبواب = (عدد الوقفات + 1) × سعر الباب الواحد.<br>
+          <strong>الفوجي:</strong> تكلفة الأبواب = عدد الوقفات × سعر الباب الواحد.<br>
+          ثم السعر النهائي = سعر المصعد + العمولة + سعر برج الحديد - الخصم.
         </div>
       </div>
     </div>
@@ -559,7 +615,7 @@
       </div>
     </div>
 
-    <div class="pdf-title"> طلب عرض السعر - Request for Quotation</div>
+    <div class="pdf-title">طلب عرض السعر - Request for Quotation</div>
 
     <table class="pdf-table">
       <tr><th colspan="2" class="pdf-section">General Information — البيانات العامة</th></tr>
@@ -569,32 +625,32 @@
       <tr><th>اسم العميل / Client Name</th><td id="v_clientName"></td></tr>
       <tr><th>رقم الهاتف 1 / Phone Number 1</th><td id="v_phone1"></td></tr>
       <tr><th>رقم الهاتف 2 / Phone Number 2</th><td id="v_phone2"></td></tr>
-      <tr><th>اسم المكتب الاستشاري / Consultant Office Name</th><td id="v_consultantOfficeName"></td></tr>
+      <tr><th>اسم المكتب الاستشاري / Consultant Office</th><td id="v_consultantOfficeName"></td></tr>
       <tr><th>رقم هاتف المكتب الاستشاري / Consultant Phone</th><td id="v_consultantPhone"></td></tr>
       <tr><th>عمولة المكتب الاستشاري / Consultant Commission</th><td id="v_consultantCommission"></td></tr>
-      <tr><th>اسم مكتب المقاول / Contractor Office Name</th><td id="v_contractorOfficeName"></td></tr>
+      <tr><th>اسم مكتب المقاول / Contractor Office</th><td id="v_contractorOfficeName"></td></tr>
       <tr><th>رقم هاتف مكتب المقاول / Contractor Phone</th><td id="v_contractorPhone"></td></tr>
       <tr><th>عمولة مكتب المقاول / Contractor Commission</th><td id="v_contractorCommission"></td></tr>
 
       <tr><th colspan="2" class="pdf-section">Request Details — تفاصيل الطلب</th></tr>
-      <tr><th>نوع المصعد / Elevator Type</th><td id="v_elevatorType"></td></tr>
+      <tr><th>بيانات المصعد / Lift Data</th><td id="v_elevatorType"></td></tr>
       <tr><th>الحمولة / Capacity</th><td id="v_capacity"></td></tr>
-      <tr><th>عدد الوقفات / Number of Stops</th><td id="v_numberOfStops"></td></tr>
+      <tr><th>عدد الوقفات / Stops</th><td id="v_numberOfStops"></td></tr>
       <tr><th>الأبواب / Doors</th><td id="v_doors"></td></tr>
-      <tr><th>الكابينة / Cabin</th><td id="v_cabin"></td></tr>
+      <tr><th>لون الكابينة / Cabin Color</th><td id="v_cabin"></td></tr>
       <tr><th>نوع البئر / Shaft Type</th><td id="v_shaftType"></td></tr>
-      <tr><th>عرض البئر / Shaft Width</th><td id="v_shaftWidth"></td></tr>
-      <tr><th>عمق البئر / Shaft Depth</th><td id="v_shaftDepth"></td></tr>
+      <tr><th>عرض البئر / Width</th><td id="v_shaftWidth"></td></tr>
+      <tr><th>عمق البئر / Depth</th><td id="v_shaftDepth"></td></tr>
       <tr><th>عمق الحفرة / Pit Depth</th><td id="v_pitDepth"></td></tr>
-      <tr><th>ارتفاع آخر وقفة / Top Floor Height (Overhead)</th><td id="v_topFloorHeight"></td></tr>
+      <tr><th>ارتفاع آخر وقفة / Overhead Height</th><td id="v_topFloorHeight"></td></tr>
 
       <tr><th colspan="2" class="pdf-section">Price Offer — عرض السعر</th></tr>
-      <tr><th>سعر المصعد / Elevator Price</th><td id="v_elevatorPrice"></td></tr>
-      <tr><th>إضافة الكابينة / Cabin Addition</th><td id="v_cabinAddition"></td></tr>
-      <tr><th>إضافة الأبواب / Doors Addition</th><td id="v_doorsAddition"></td></tr>
-      <tr><th>برج حديد / Steel Structure</th><td id="v_steelStructure"></td></tr>
-      <tr><th>خصم / Discount</th><td id="v_discount"></td></tr>
-      <tr><th>السعر النهائي / Final Price</th><td id="v_finalPrice"></td></tr>
+      <tr><th>الخصم / Discount</th><td id="v_discount"></td></tr>
+      <tr><th>سعر برج الحديد / Steel Structure</th><td id="v_steelStructure"></td></tr>
+      <tr><th>سعر المصعد الإيطالي / Italian Price</th><td id="v_italianPrice"></td></tr>
+      <tr><th>سعر المصعد الفوجي / Fuji Price</th><td id="v_fujiPrice"></td></tr>
+      <tr><th>السعر النهائي الإيطالي / Final Italian Price</th><td id="v_finalItalianPrice"></td></tr>
+      <tr><th>السعر النهائي الفوجي / Final Fuji Price</th><td id="v_finalFujiPrice"></td></tr>
     </table>
 
     <div class="pdf-footer">SMOU GROUP © RFQ Report</div>
@@ -604,6 +660,91 @@
     const form = document.getElementById('rfqForm');
     const statusText = document.getElementById('statusText');
     const pdfTemplate = document.getElementById('pdfTemplate');
+
+    const PRICE_TABLES = {
+      italy: {
+        capacity: {
+          '450kg': 100000,
+          '630kg': 105000,
+          '800kg': 110000,
+          '1000kg': 115000,
+          '1150kg': 120000,
+          '1350kg': 125000,
+          '1600kg': 130000,
+          '2000kg': 135000
+        },
+        stops: {
+          '2': 100000,
+          '3': 100000,
+          '4': 105000,
+          '5': 110000,
+          '6': 115000,
+          '7': 120000,
+          '8': 125000,
+          '9': 130000,
+          '10': 135000,
+          '11': 140000,
+          '12': 145000
+        },
+        doors: {
+          'فضي': 0,
+          'ذهبي': 1000,
+          'روزجولد': 1000,
+          'زجاج': 2500,
+          'زجاج فضي': 2500,
+          'زجاج ذهبي': 3000,
+          'زجاج روزجولد': 3000
+        },
+        cabin: {
+          'فضي': 0,
+          'ذهبي': 3000,
+          'روزجولد': 3000,
+          'خشبي': 3000,
+          'زجاج': 5000
+        }
+      },
+      fuji: {
+        capacity: {
+          '450kg': 85000,
+          '630kg': 85000,
+          '800kg': 88000,
+          '1000kg': 91000,
+          '1150kg': 94000,
+          '1350kg': 97000,
+          '1600kg': 100000,
+          '2000kg': 103000
+        },
+        stops: {
+          '2': 85000,
+          '3': 85000,
+          '4': 88000,
+          '5': 91000,
+          '6': 94000,
+          '7': 97000,
+          '8': 100000,
+          '9': 103000,
+          '10': 106000,
+          '11': 109000,
+          '12': 112000
+        },
+        doors: {
+          'فضي': 0,
+          'ذهبي': 1000,
+          'روزجولد': 1000,
+          'زجاج': 1000,
+          'زجاج فضي': 1000,
+          'زجاج ذهبي': 1000,
+          'زجاج روزجولد': 1000
+        },
+        cabin: {
+          'فضي': 0,
+          'ذهبي': 2000,
+          'روزجولد': 2000,
+          'خشبي': 2000,
+          'زجاج': 5000
+        }
+      }
+    };
 
     const fields = [
       'requestDate',
@@ -628,18 +769,30 @@
       'shaftDepth',
       'pitDepth',
       'topFloorHeight',
-      'elevatorPrice',
-      'cabinAddition',
-      'doorsAddition',
-      'steelStructure',
       'discount',
-      'finalPrice'
+      'steelStructure',
+      'italianPrice',
+      'fujiPrice',
+      'finalItalianPrice',
+      'finalFujiPrice'
     ];
 
     function setTodayDate(){
       const now = new Date();
       const formatted = now.toLocaleString('en-GB');
       document.getElementById('requestDate').value = formatted;
+    }
+
+    function toNumber(value){
+      const num = parseFloat(value);
+      return isNaN(num) ? 0 : num;
+    }
+
+    function formatMoney(value){
+      return `${toNumber(value).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })} AED`;
     }
 
     function getFormData(){
@@ -649,45 +802,119 @@
       return data;
     }
 
-    function toNumber(value){
-      const num = parseFloat(value);
-      return isNaN(num) ? 0 : num;
-    }
-
-    function calculateFinalPrice(){
-      const elevatorPrice = toNumber(form.elements['elevatorPrice'].value);
-      const cabinAddition = toNumber(form.elements['cabinAddition'].value);
-      const doorsAddition = toNumber(form.elements['doorsAddition'].value);
-      const steelStructure = toNumber(form.elements['steelStructure'].value);
+    function getCommissionTotal(){
       const consultantCommission = toNumber(form.elements['consultantCommission'].value);
       const contractorCommission = toNumber(form.elements['contractorCommission'].value);
-      const totalCommission = consultantCommission + contractorCommission;
+      return consultantCommission + contractorCommission;
+    }
+
+    function getBasePrice(brand, capacity, stops){
+      const capacityPrice = PRICE_TABLES[brand].capacity[capacity] ?? 0;
+      const stopsPrice = PRICE_TABLES[brand].stops[stops] ?? 0;
+      return {
+        capacityPrice,
+        stopsPrice,
+        selectedBasePrice: Math.max(capacityPrice, stopsPrice)
+      };
+    }
+
+    function getDoorUnitPrice(brand, doorType){
+      return PRICE_TABLES[brand].doors[doorType] ?? 0;
+    }
+
+    function getCabinPrice(brand, cabinType){
+      return PRICE_TABLES[brand].cabin[cabinType] ?? 0;
+    }
+
+    function calculateBrandPrice(brand){
+      const capacity = form.elements['capacity'].value;
+      const stops = form.elements['numberOfStops'].value;
+      const doorType = form.elements['doors'].value;
+      const cabinType = form.elements['cabin'].value;
+
+      const stopCount = parseInt(stops, 10);
+      const validStops = Number.isFinite(stopCount) ? stopCount : 0;
+
+      const base = getBasePrice(brand, capacity, stops);
+      const doorUnit = getDoorUnitPrice(brand, doorType);
+      const cabinPrice = getCabinPrice(brand, cabinType);
+
+      let doorsTotal = 0;
+      if (brand === 'italy') {
+        doorsTotal = (validStops + 1) * doorUnit;
+      } else {
+        doorsTotal = validStops * doorUnit;
+      }
+
+      const price = base.selectedBasePrice + doorsTotal + cabinPrice;
+
+      return {
+        baseByCapacity: base.capacityPrice,
+        baseByStops: base.stopsPrice,
+        selectedBasePrice: base.selectedBasePrice,
+        doorUnit,
+        doorsTotal,
+        cabinPrice,
+        totalPrice: price
+      };
+    }
+
+    function calculateFinalPrices(){
+      const steelStructure = toNumber(form.elements['steelStructure'].value);
       const discount = toNumber(form.elements['discount'].value);
+      const commissionTotal = getCommissionTotal();
 
-      const total =
-        elevatorPrice +
-        cabinAddition +
-        doorsAddition +
-        steelStructure +
-        totalCommission -
-        discount;
+      const italy = calculateBrandPrice('italy');
+      const fuji = calculateBrandPrice('fuji');
 
-      form.elements['finalPrice'].value = total.toFixed(2);
+      const finalItalian = italy.totalPrice + commissionTotal + steelStructure - discount;
+      const finalFuji = fuji.totalPrice + commissionTotal + steelStructure - discount;
+
+      document.getElementById('italianPrice').value = italy.totalPrice.toFixed(2);
+      document.getElementById('fujiPrice').value = fuji.totalPrice.toFixed(2);
+      document.getElementById('finalItalianPrice').value = finalItalian.toFixed(2);
+      document.getElementById('finalFujiPrice').value = finalFuji.toFixed(2);
+
+      document.getElementById('italianPriceDisplay').textContent = formatMoney(italy.totalPrice);
+      document.getElementById('fujiPriceDisplay').textContent = formatMoney(fuji.totalPrice);
+      document.getElementById('finalItalianPriceDisplay').textContent = formatMoney(finalItalian);
+      document.getElementById('finalFujiPriceDisplay').textContent = formatMoney(finalFuji);
+
+      document.getElementById('italianPriceBreakdown').innerHTML =
+        `الأساسي = الأعلى بين الحمولة (${formatMoney(italy.baseByCapacity)}) والوقفات (${formatMoney(italy.baseByStops)}) = <strong>${formatMoney(italy.selectedBasePrice)}</strong><br>
+         الأبواب = (${form.elements['numberOfStops'].value || 0} + 1) × ${formatMoney(italy.doorUnit)} = ${formatMoney(italy.doorsTotal)}<br>
+         الكابينة = ${formatMoney(italy.cabinPrice)}`;
+
+      document.getElementById('fujiPriceBreakdown').innerHTML =
+        `الأساسي = الأعلى بين الحمولة (${formatMoney(fuji.baseByCapacity)}) والوقفات (${formatMoney(fuji.baseByStops)}) = <strong>${formatMoney(fuji.selectedBasePrice)}</strong><br>
+         الأبواب = ${form.elements['numberOfStops'].value || 0} × ${formatMoney(fuji.doorUnit)} = ${formatMoney(fuji.doorsTotal)}<br>
+         الكابينة = ${formatMoney(fuji.cabinPrice)}`;
+
+      document.getElementById('finalItalianPriceBreakdown').innerHTML =
+        `السعر النهائي = ${formatMoney(italy.totalPrice)} + عمولة ${formatMoney(commissionTotal)} + برج حديد ${formatMoney(steelStructure)} - خصم ${formatMoney(discount)}`;
+
+      document.getElementById('finalFujiPriceBreakdown').innerHTML =
+        `السعر النهائي = ${formatMoney(fuji.totalPrice)} + عمولة ${formatMoney(commissionTotal)} + برج حديد ${formatMoney(steelStructure)} - خصم ${formatMoney(discount)}`;
     }
 
     function fillPdfTemplate(){
       const data = getFormData();
       fields.forEach(key => {
         const el = document.getElementById(`v_${key}`);
-        if(el) el.textContent = data[key] || '-';
+        if(el){
+          if (['italianPrice','fujiPrice','finalItalianPrice','finalFujiPrice','discount','steelStructure'].includes(key)) {
+            el.textContent = data[key] ? formatMoney(data[key]) : '-';
+          } else {
+            el.textContent = data[key] || '-';
+          }
+        }
       });
       document.getElementById('pdfDate').textContent = new Date().toLocaleString('en-GB');
       return data;
     }
 
     function makeSummaryMessage(data){
-      const totalCommission =
-        toNumber(data.consultantCommission) + toNumber(data.contractorCommission);
+      const totalCommission = getCommissionTotal();
 
       return [
         'طلب عرض سعر - RFQ',
@@ -703,23 +930,23 @@
         `اسم مكتب المقاول: ${data.contractorOfficeName || '-'}`,
         `رقم هاتف مكتب المقاول: ${data.contractorPhone || '-'}`,
         `عمولة مكتب المقاول: ${data.contractorCommission || '-'}`,
-        `إجمالي العمولة: ${totalCommission.toFixed(2)}`,
-        `نوع المصعد: ${data.elevatorType || '-'}`,
+        `إجمالي العمولة: ${formatMoney(totalCommission)}`,
+        `بيانات المصعد: ${data.elevatorType || '-'}`,
         `الحمولة: ${data.capacity || '-'}`,
         `عدد الوقفات: ${data.numberOfStops || '-'}`,
         `الأبواب: ${data.doors || '-'}`,
-        `الكابينة: ${data.cabin || '-'}`,
+        `لون الكابينة: ${data.cabin || '-'}`,
         `نوع البئر: ${data.shaftType || '-'}`,
         `عرض البئر: ${data.shaftWidth || '-'}`,
         `عمق البئر: ${data.shaftDepth || '-'}`,
         `عمق الحفرة: ${data.pitDepth || '-'}`,
         `ارتفاع آخر وقفة: ${data.topFloorHeight || '-'}`,
-        `سعر المصعد: ${data.elevatorPrice || '-'}`,
-        `إضافة الكابينة: ${data.cabinAddition || '-'}`,
-        `إضافة الأبواب: ${data.doorsAddition || '-'}`,
-        `برج حديد: ${data.steelStructure || '-'}`,
-        `خصم: ${data.discount || '-'}`,
-        `السعر النهائي: ${data.finalPrice || '-'}`
+        `الخصم: ${formatMoney(data.discount || 0)}`,
+        `سعر برج الحديد: ${formatMoney(data.steelStructure || 0)}`,
+        `سعر المصعد الإيطالي: ${formatMoney(data.italianPrice || 0)}`,
+        `سعر المصعد الفوجي: ${formatMoney(data.fujiPrice || 0)}`,
+        `السعر النهائي الإيطالي: ${formatMoney(data.finalItalianPrice || 0)}`,
+        `السعر النهائي الفوجي: ${formatMoney(data.finalFujiPrice || 0)}`
       ].join('\n');
     }
 
@@ -737,22 +964,26 @@
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF('p', 'mm', 'a4');
+
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
       const imgWidth = pageWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
+      if (imgHeight <= pageHeight) {
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      } else {
+        let heightLeft = imgHeight;
+        let position = 0;
         pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
+
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
       }
 
       const data = getFormData();
@@ -770,7 +1001,7 @@
 
     document.getElementById('autoSendBtn').addEventListener('click', async () => {
       try {
-        calculateFinalPrice();
+        calculateFinalPrices();
         const { pdf, fileName, data } = await generatePdf();
         const blob = pdf.output('blob');
         const file = new File([blob], fileName, { type: 'application/pdf' });
@@ -799,19 +1030,21 @@
     });
 
     [
-      'elevatorPrice',
-      'cabinAddition',
-      'doorsAddition',
+      'capacity',
+      'numberOfStops',
+      'doors',
+      'cabin',
       'steelStructure',
+      'discount',
       'consultantCommission',
-      'contractorCommission',
-      'discount'
+      'contractorCommission'
     ].forEach(name => {
-      form.elements[name].addEventListener('input', calculateFinalPrice);
+      form.elements[name].addEventListener('input', calculateFinalPrices);
+      form.elements[name].addEventListener('change', calculateFinalPrices);
     });
 
     setTodayDate();
-    calculateFinalPrice();
+    calculateFinalPrices();
   </script>
 </body>
 </html>
