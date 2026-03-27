@@ -654,15 +654,24 @@
     }
 
     function calculateFinalPrice(){
-      const elevatorPrice = toNumber(form.elements['elevatorPrice'].value);
-      const cabinAddition = toNumber(form.elements['cabinAddition'].value);
-      const doorsAddition = toNumber(form.elements['doorsAddition'].value);
-      const steelStructure = toNumber(form.elements['steelStructure'].value);
-      const discount = toNumber(form.elements['discount'].value);
+  const elevatorPrice = toNumber(form.elements['elevatorPrice'].value);
+  const cabinAddition = toNumber(form.elements['cabinAddition'].value);
+  const doorsAddition = toNumber(form.elements['doorsAddition'].value);
+  const steelStructure = toNumber(form.elements['steelStructure'].value);
+  const consultantCommission = toNumber(form.elements['consultantCommission'].value);
+  const contractorCommission = toNumber(form.elements['contractorCommission'].value);
+  const discount = toNumber(form.elements['discount'].value);
 
-      const total = elevatorPrice + cabinAddition + doorsAddition + steelStructure - discount;
-      form.elements['finalPrice'].value = total.toFixed(2);
-    }
+  const total = elevatorPrice 
+              + cabinAddition 
+              + doorsAddition 
+              + steelStructure 
+              + consultantCommission 
+              + contractorCommission 
+              - discount;
+
+  form.elements['finalPrice'].value = total.toFixed(2);
+}
 
     function fillPdfTemplate(){
       const data = getFormData();
