@@ -7,26 +7,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
     :root{
       --navy:#0b1b2b;
       --navy2:#12324f;
       --glass:rgba(255,255,255,.10);
+      --glass2:rgba(255,255,255,.14);
       --border:rgba(255,255,255,.18);
       --text:#ffffff;
       --muted:rgba(255,255,255,.82);
-      --shadow:0 10px 28px rgba(0,0,0,.22);
+      --shadow:0 12px 35px rgba(0,0,0,.28);
       --bg:#071320;
-      --success1:#1ca767;
-      --success2:#117347;
-      --primary1:#1d70b7;
-      --primary2:#0f4574;
-      --danger:#ff6b6b;
+      --ok:#15c26b;
+      --warn:#f0b429;
     }
 
     *{box-sizing:border-box}
-
     html,body{
       margin:0;
       padding:0;
@@ -34,15 +33,14 @@
       background:var(--bg);
       color:var(--text);
     }
-
     body{min-height:100vh}
 
     .hero{
       min-height:100vh;
       position:relative;
       overflow:hidden;
-      padding:14px;
-      background:linear-gradient(180deg, rgba(8,24,40,.72), rgba(5,15,26,.90));
+      padding:28px 16px 40px;
+      background:linear-gradient(180deg, rgba(8,24,40,.70), rgba(5,15,26,.88));
     }
 
     .hero::before{
@@ -50,237 +48,232 @@
       position:absolute;
       inset:0;
       background:
-        radial-gradient(circle at top center, rgba(28,111,173,.25), transparent 34%),
-        linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.60));
+        radial-gradient(circle at top center, rgba(28,111,173,.28), transparent 35%),
+        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.65));
       z-index:0;
     }
 
-    .container{
-      position:relative;
-      z-index:1;
-      max-width:1450px;
-      margin:0 auto;
-    }
-
-    .topBox{
-      text-align:center;
-      margin-bottom:12px;
-    }
+    .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+    .topBox{text-align:center;margin-bottom:20px}
 
     .logo{
-      width:68px;
-      height:68px;
-      margin:0 auto 10px;
-      border-radius:18px;
+      width:84px;height:84px;margin:0 auto 16px;border-radius:22px;
       background:rgba(255,255,255,.12);
       border:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:flex;align-items:center;justify-content:center;
       backdrop-filter:blur(10px);
-      box-shadow:var(--shadow);
+      box-shadow:var(--shadow)
     }
-
-    .logo img{
-      width:84%;
-      height:84%;
-      object-fit:contain;
-    }
+    .logo img{width:84%;height:84%;object-fit:contain}
 
     h1{
       margin:0;
-      font-size:clamp(24px,3vw,40px);
+      font-size:clamp(28px,4vw,50px);
       font-weight:800;
-      line-height:1.2;
+      line-height:1.25
     }
 
     .subtitle{
-      margin:8px 0 0;
+      margin:10px 0 0;
       color:var(--muted);
-      font-size:clamp(13px,1.6vw,17px);
-      font-weight:500;
+      font-size:clamp(15px,2vw,21px);
+      font-weight:500
     }
 
     .portalCard{
       background:rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.12);
-      border-radius:24px;
-      padding:14px;
+      border-radius:28px;
+      padding:22px;
       backdrop-filter:blur(12px);
-      box-shadow:0 18px 45px rgba(0,0,0,.28);
+      box-shadow:0 20px 55px rgba(0,0,0,.30);
     }
 
     .sectionHeader{
       display:flex;
       align-items:center;
-      gap:10px;
-      margin-bottom:12px;
+      gap:12px;
+      margin-bottom:16px
     }
 
-    .sectionTitle{
-      font-size:18px;
-      font-weight:800;
-    }
-
+    .sectionTitle{font-size:20px;font-weight:800}
     .divider{
       flex:1;
       height:1px;
-      background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.28), rgba(255,255,255,0));
+      background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.28), rgba(255,255,255,0))
     }
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(4, minmax(0,1fr));
-      gap:10px;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px
     }
 
     .field{
       display:flex;
       flex-direction:column;
-      gap:6px;
+      gap:8px
     }
 
     .field.full{grid-column:1/-1}
-    .field.span2{grid-column:span 2}
-    .field.span3{grid-column:span 3}
 
     .label{
-      font-size:14px;
+      font-size:15px;
       font-weight:700;
-      color:#fff;
-      line-height:1.3;
+      color:#fff
     }
 
     .label small{
-      opacity:.82;
-      font-weight:500;
-      display:block;
-      font-size:12px;
-      margin-top:2px;
+      opacity:.8;
+      font-weight:500
     }
 
-    input,select{
+    input,select,textarea{
       width:100%;
-      height:46px;
-      padding:10px 14px;
-      border-radius:14px;
+      padding:14px 16px;
+      border-radius:18px;
       border:1px solid rgba(255,255,255,.16);
       background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.08));
       color:#fff;
       outline:none;
       box-shadow:var(--shadow);
       font-family:inherit;
-      font-size:15px;
+      font-size:16px
     }
 
-    input::placeholder{color:rgba(255,255,255,.55)}
+    input::placeholder,textarea::placeholder{color:rgba(255,255,255,.52)}
     select option{color:#000}
-
-    .sectionBand{
-      grid-column:1/-1;
-      margin-top:4px;
-      margin-bottom:0;
-      padding:10px 14px;
-      border-radius:14px;
-      background:rgba(255,255,255,.09);
-      border:1px solid rgba(255,255,255,.12);
-      font-size:15px;
-      font-weight:800;
-      color:#fff;
-    }
-
-    .finalBox{
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:10px;
-      margin-top:12px;
-      align-items:stretch;
-    }
-
-    .resultCard,
-    .noteCard{
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:18px;
-      padding:14px;
-      box-shadow:var(--shadow);
-    }
-
-    .resultTitle{
-      font-size:15px;
-      font-weight:800;
-      margin-bottom:8px;
-    }
-
-    .resultValue{
-      font-size:28px;
-      font-weight:800;
-      color:#fff;
-      line-height:1.1;
-    }
-
-    .aed{
-      font-size:14px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-
-    .noteCard{
-      font-size:14px;
-      line-height:1.8;
-      color:rgba(255,255,255,.88);
-    }
+    textarea{min-height:110px;resize:vertical}
 
     .actions{
       display:flex;
       flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
+      gap:12px;
+      margin-top:20px
     }
 
     .btn{
       border:none;
       cursor:pointer;
-      min-height:50px;
-      padding:12px 18px;
-      border-radius:16px;
+      min-height:58px;
+      padding:14px 20px;
+      border-radius:18px;
       color:#fff;
-      font-size:15px;
+      font-size:16px;
       font-weight:800;
       font-family:inherit;
       text-decoration:none;
       background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.10));
       border:1px solid rgba(255,255,255,.16);
       box-shadow:var(--shadow);
-      transition:.25s ease;
+      transition:.25s ease
     }
 
     .btn:hover{
-      transform:translateY(-2px);
-      background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.12));
+      transform:translateY(-3px);
+      background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.12))
     }
 
-    .btn.primary{background:linear-gradient(180deg, var(--primary1), var(--primary2))}
-    .btn.success{background:linear-gradient(180deg, var(--success1), var(--success2))}
+    .btn.primary{background:linear-gradient(180deg, #1d70b7, #0f4574)}
+    .btn.success{background:linear-gradient(180deg, #1ca767, #117347)}
+    .btn.warn{background:linear-gradient(180deg, #d79a1e, #9a6d11)}
 
     .status{
-      margin-top:10px;
+      margin-top:12px;
       font-size:14px;
-      color:var(--muted);
+      color:var(--muted)
     }
 
-    @media (max-width:1100px){
-      .grid{grid-template-columns:repeat(2, minmax(0,1fr))}
-      .finalBox{grid-template-columns:1fr}
+    .note{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.88);
+      line-height:1.8
     }
 
-    @media (max-width:640px){
+    .pdf-card{
+      position:fixed;
+      left:-99999px;
+      top:0;
+      width:794px;
+      background:#fff;
+      color:#111;
+      padding:28px;
+      font-family:"Tajawal",sans-serif;
+    }
+
+    .pdf-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:2px solid #12324f;
+      padding-bottom:12px;
+      margin-bottom:16px
+    }
+
+    .pdf-brand{
+      font-size:26px;
+      font-weight:800;
+      color:#12324f
+    }
+
+    .pdf-sub{
+      font-size:14px;
+      color:#4a5568
+    }
+
+    .pdf-title{
+      font-size:22px;
+      font-weight:800;
+      text-align:center;
+      margin:18px 0;
+      color:#0b1b2b
+    }
+
+    .pdf-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px
+    }
+
+    .pdf-table th,.pdf-table td{
+      border:1px solid #cbd5e0;
+      padding:9px 10px;
+      vertical-align:top
+    }
+
+    .pdf-table th{
+      background:#eff6ff;
+      color:#0b1b2b;
+      text-align:right
+    }
+
+    .pdf-section{
+      background:#dbeafe;
+      font-weight:800;
+      color:#0b1b2b
+    }
+
+    .pdf-footer{
+      margin-top:16px;
+      font-size:12px;
+      color:#64748b;
+      text-align:center
+    }
+
+    @media (max-width:900px){
       .grid{grid-template-columns:1fr}
-      .field.span2,.field.span3{grid-column:span 1}
+    }
+
+    @media (max-width:768px){
+      .portalCard{padding:16px;border-radius:22px}
+      .logo{width:70px;height:70px;border-radius:18px}
+      h1{font-size:34px}
       .actions{flex-direction:column}
       .btn{width:100%}
-      .portalCard{padding:12px}
-      .resultValue{font-size:24px}
     }
   </style>
 </head>
@@ -292,7 +285,7 @@
           <img src="logo.png" alt="SMOU GROUP" onerror="this.style.display='none'">
         </div>
         <h1>طلب عرض سعر<br>RFQ (Request for Quotation)</h1>
-        <p class="subtitle">نموذج سمو الرسمي لتعبئة بيانات طلب عرض السعر في صفحة واحدة</p>
+        <p class="subtitle">نموذج سمو الرسمي لتعبئة بيانات طلب عرض السعر وإصدار تقرير PDF</p>
       </div>
 
       <div class="portalCard">
@@ -369,12 +362,12 @@
           </div>
 
           <div class="field">
-            <label class="label">رقم هاتف الاستشاري <small>Consultant Phone</small></label>
+            <label class="label">رقم الهاتف <small>Phone Number</small></label>
             <input name="consultantPhone" placeholder="رقم هاتف المكتب الاستشاري">
           </div>
 
           <div class="field">
-            <label class="label">عمولة الاستشاري <small>Consultant Commission</small></label>
+            <label class="label">العمولة <small>Commission</small></label>
             <input name="consultantCommission" placeholder="العمولة">
           </div>
 
@@ -384,16 +377,18 @@
           </div>
 
           <div class="field">
-            <label class="label">رقم هاتف المقاول <small>Contractor Phone</small></label>
+            <label class="label">رقم الهاتف <small>Phone Number</small></label>
             <input name="contractorPhone" placeholder="رقم هاتف مكتب المقاول">
           </div>
 
           <div class="field">
-            <label class="label">عمولة المقاول <small>Contractor Commission</small></label>
+            <label class="label">العمولة <small>Commission</small></label>
             <input name="contractorCommission" placeholder="العمولة">
           </div>
 
-          <div class="sectionBand">تفاصيل الطلب — Request Details</div>
+          <div class="field full">
+            <label class="label">تفاصيل الطلب <small>Request Details</small></label>
+          </div>
 
           <div class="field">
             <label class="label">نوع المصعد <small>Elevator Type</small></label>
@@ -462,7 +457,7 @@
             </select>
           </div>
 
-          <div class="field span3">
+          <div class="field full">
             <label class="label">نوع البئر <small>Shaft Type</small></label>
             <select name="shaftType" required>
               <option value="">اختر نوع البئر</option>
@@ -473,6 +468,10 @@
               <option>بانوراما برج حديد</option>
               <option>أخرى</option>
             </select>
+          </div>
+
+          <div class="field full">
+            <label class="label">مقاسات البئر <small>Shaft Dimensions</small></label>
           </div>
 
           <div class="field">
@@ -491,11 +490,13 @@
           </div>
 
           <div class="field">
-            <label class="label">ارتفاع آخر وقفة <small>Top Floor Height</small></label>
+            <label class="label">ارتفاع آخر وقفة <small>Top Floor Height (Overhead)</small></label>
             <input name="topFloorHeight" placeholder="ارتفاع آخر وقفة">
           </div>
 
-          <div class="sectionBand">عرض السعر — Price Offer</div>
+          <div class="field full">
+            <label class="label">عرض السعر <small>Price Offer</small></label>
+          </div>
 
           <div class="field">
             <label class="label">سعر المصعد <small>Elevator Price</small></label>
@@ -513,104 +514,276 @@
           </div>
 
           <div class="field">
-            <label class="label">برج الحديد <small>Steel Structure</small></label>
+            <label class="label">برج حديد <small>Steel Structure</small></label>
             <input type="number" name="steelStructure" placeholder="رقم بالدرهم" min="0" step="0.01">
           </div>
 
           <div class="field">
-            <label class="label">العمولة <small>Commission</small></label>
-            <input type="number" name="priceCommission" placeholder="رقم بالدرهم" min="0" step="0.01">
-          </div>
-
-          <div class="field">
-            <label class="label">الخصم <small>Discount</small></label>
+            <label class="label">خصم <small>Discount</small></label>
             <input type="number" name="discount" placeholder="رقم بالدرهم" min="0" step="0.01">
           </div>
 
-          <div class="field span2">
+          <div class="field">
             <label class="label">السعر النهائي <small>Final Price</small></label>
-            <input type="text" name="finalPrice" id="finalPrice" placeholder="يُحسب تلقائيًا" readonly>
+            <input type="number" name="finalPrice" id="finalPrice" placeholder="يُحسب تلقائيًا" readonly>
           </div>
 
         </form>
 
-        <div class="finalBox">
-          <div class="resultCard">
-            <div class="resultTitle">السعر النهائي المحسوب</div>
-            <div class="resultValue" id="finalPricePreview">0.00</div>
-            <div class="aed">AED — درهم إماراتي</div>
-          </div>
-
-          <div class="noteCard">
-            <strong>المعادلة الحالية:</strong><br>
-            السعر النهائي = سعر المصعد + إضافة الكابينة + إضافة الأبواب + برج الحديد + العمولة - الخصم
-          </div>
-        </div>
-
         <div class="actions">
-          <button class="btn success" type="button" id="calcBtn">حساب السعر النهائي</button>
-          <button class="btn primary" type="button" id="resetBtn">إعادة تعيين</button>
+          <button class="btn success" type="button" id="autoSendBtn">إنشاء PDF وإرسال واتساب</button>
         </div>
 
         <div class="status" id="statusText">جاهز لتعبئة نموذج طلب عرض السعر.</div>
+
+        <div class="note">
+          هذا الزر ينفذ مسارًا مبسطًا: إنشاء ملف PDF ثم فتح مشاركة واتساب أو نافذة المشاركة بالجهاز حسب المتاح.
+          <br>
+          <strong>ملاحظة:</strong> يتم احتساب السعر النهائي تلقائيًا من خلال:
+          سعر المصعد + إضافة الكابينة + إضافة الأبواب + برج حديد - الخصم
+        </div>
       </div>
     </div>
   </section>
 
+  <div id="pdfTemplate" class="pdf-card">
+    <div class="pdf-header">
+      <div>
+        <div class="pdf-brand">SMOU GROUP</div>
+        <div class="pdf-sub">RFQ Report</div>
+      </div>
+      <div style="text-align:left">
+        <div class="pdf-sub">طلب عرض سعر</div>
+        <div class="pdf-sub" id="pdfDate"></div>
+      </div>
+    </div>
+
+    <div class="pdf-title">RFQ (Request for Quotation) — طلب عرض سعر</div>
+
+    <table class="pdf-table">
+      <tr><th colspan="2" class="pdf-section">General Information — البيانات العامة</th></tr>
+      <tr><th>التاريخ / Date</th><td id="v_requestDate"></td></tr>
+      <tr><th>مسؤول البيع / Sales Representative</th><td id="v_salesRepresentative"></td></tr>
+      <tr><th>المرحلة / Stage</th><td id="v_stage"></td></tr>
+      <tr><th>اسم العميل / Client Name</th><td id="v_clientName"></td></tr>
+      <tr><th>رقم الهاتف 1 / Phone Number 1</th><td id="v_phone1"></td></tr>
+      <tr><th>رقم الهاتف 2 / Phone Number 2</th><td id="v_phone2"></td></tr>
+      <tr><th>اسم المكتب الاستشاري / Consultant Office Name</th><td id="v_consultantOfficeName"></td></tr>
+      <tr><th>رقم هاتف المكتب الاستشاري / Consultant Phone</th><td id="v_consultantPhone"></td></tr>
+      <tr><th>عمولة المكتب الاستشاري / Consultant Commission</th><td id="v_consultantCommission"></td></tr>
+      <tr><th>اسم مكتب المقاول / Contractor Office Name</th><td id="v_contractorOfficeName"></td></tr>
+      <tr><th>رقم هاتف مكتب المقاول / Contractor Phone</th><td id="v_contractorPhone"></td></tr>
+      <tr><th>عمولة مكتب المقاول / Contractor Commission</th><td id="v_contractorCommission"></td></tr>
+
+      <tr><th colspan="2" class="pdf-section">Request Details — تفاصيل الطلب</th></tr>
+      <tr><th>نوع المصعد / Elevator Type</th><td id="v_elevatorType"></td></tr>
+      <tr><th>الحمولة / Capacity</th><td id="v_capacity"></td></tr>
+      <tr><th>عدد الوقفات / Number of Stops</th><td id="v_numberOfStops"></td></tr>
+      <tr><th>الأبواب / Doors</th><td id="v_doors"></td></tr>
+      <tr><th>الكابينة / Cabin</th><td id="v_cabin"></td></tr>
+      <tr><th>نوع البئر / Shaft Type</th><td id="v_shaftType"></td></tr>
+      <tr><th>عرض البئر / Shaft Width</th><td id="v_shaftWidth"></td></tr>
+      <tr><th>عمق البئر / Shaft Depth</th><td id="v_shaftDepth"></td></tr>
+      <tr><th>عمق الحفرة / Pit Depth</th><td id="v_pitDepth"></td></tr>
+      <tr><th>ارتفاع آخر وقفة / Top Floor Height (Overhead)</th><td id="v_topFloorHeight"></td></tr>
+
+      <tr><th colspan="2" class="pdf-section">Price Offer — عرض السعر</th></tr>
+      <tr><th>سعر المصعد / Elevator Price</th><td id="v_elevatorPrice"></td></tr>
+      <tr><th>إضافة الكابينة / Cabin Addition</th><td id="v_cabinAddition"></td></tr>
+      <tr><th>إضافة الأبواب / Doors Addition</th><td id="v_doorsAddition"></td></tr>
+      <tr><th>برج حديد / Steel Structure</th><td id="v_steelStructure"></td></tr>
+      <tr><th>خصم / Discount</th><td id="v_discount"></td></tr>
+      <tr><th>السعر النهائي / Final Price</th><td id="v_finalPrice"></td></tr>
+    </table>
+
+    <div class="pdf-footer">SMOU GROUP © RFQ Report</div>
+  </div>
+
   <script>
     const form = document.getElementById('rfqForm');
     const statusText = document.getElementById('statusText');
-    const finalPriceInput = document.getElementById('finalPrice');
-    const finalPricePreview = document.getElementById('finalPricePreview');
+    const pdfTemplate = document.getElementById('pdfTemplate');
 
-    function setTodayDate() {
+    const fields = [
+      'requestDate',
+      'salesRepresentative',
+      'stage',
+      'clientName',
+      'phone1',
+      'phone2',
+      'consultantOfficeName',
+      'consultantPhone',
+      'consultantCommission',
+      'contractorOfficeName',
+      'contractorPhone',
+      'contractorCommission',
+      'elevatorType',
+      'capacity',
+      'numberOfStops',
+      'doors',
+      'cabin',
+      'shaftType',
+      'shaftWidth',
+      'shaftDepth',
+      'pitDepth',
+      'topFloorHeight',
+      'elevatorPrice',
+      'cabinAddition',
+      'doorsAddition',
+      'steelStructure',
+      'discount',
+      'finalPrice'
+    ];
+
+    function setTodayDate(){
       const now = new Date();
-      document.getElementById('requestDate').value = now.toLocaleString('en-GB');
+      const formatted = now.toLocaleString('en-GB');
+      document.getElementById('requestDate').value = formatted;
     }
 
-    function toNumber(value) {
+    function getFormData(){
+      const fd = new FormData(form);
+      const data = {};
+      fields.forEach(key => data[key] = (fd.get(key) || '').toString().trim());
+      return data;
+    }
+
+    function toNumber(value){
       const num = parseFloat(value);
       return isNaN(num) ? 0 : num;
     }
 
-    function formatMoney(value) {
-      return value.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+    function calculateFinalPrice(){
+      const elevatorPrice = toNumber(form.elements['elevatorPrice'].value);
+      const cabinAddition = toNumber(form.elements['cabinAddition'].value);
+      const doorsAddition = toNumber(form.elements['doorsAddition'].value);
+      const steelStructure = toNumber(form.elements['steelStructure'].value);
+      const discount = toNumber(form.elements['discount'].value);
+
+      const total = elevatorPrice + cabinAddition + doorsAddition + steelStructure - discount;
+      form.elements['finalPrice'].value = total.toFixed(2);
+    }
+
+    function fillPdfTemplate(){
+      const data = getFormData();
+      fields.forEach(key => {
+        const el = document.getElementById(`v_${key}`);
+        if(el) el.textContent = data[key] || '-';
       });
+      document.getElementById('pdfDate').textContent = new Date().toLocaleString('en-GB');
+      return data;
     }
 
-    function calculateFinalPrice() {
-      const elevatorPrice   = toNumber(form.elements['elevatorPrice'].value);
-      const cabinAddition   = toNumber(form.elements['cabinAddition'].value);
-      const doorsAddition   = toNumber(form.elements['doorsAddition'].value);
-      const steelStructure  = toNumber(form.elements['steelStructure'].value);
-      const priceCommission = toNumber(form.elements['priceCommission'].value);
-      const discount        = toNumber(form.elements['discount'].value);
+    function makeSummaryMessage(data){
+      return [
+        'طلب عرض سعر - RFQ',
+        `التاريخ: ${data.requestDate || '-'}`,
+        `مسؤول البيع: ${data.salesRepresentative || '-'}`,
+        `المرحلة: ${data.stage || '-'}`,
+        `اسم العميل: ${data.clientName || '-'}`,
+        `رقم الهاتف 1: ${data.phone1 || '-'}`,
+        `رقم الهاتف 2: ${data.phone2 || '-'}`,
+        `اسم المكتب الاستشاري: ${data.consultantOfficeName || '-'}`,
+        `رقم هاتف المكتب الاستشاري: ${data.consultantPhone || '-'}`,
+        `عمولة المكتب الاستشاري: ${data.consultantCommission || '-'}`,
+        `اسم مكتب المقاول: ${data.contractorOfficeName || '-'}`,
+        `رقم هاتف مكتب المقاول: ${data.contractorPhone || '-'}`,
+        `عمولة مكتب المقاول: ${data.contractorCommission || '-'}`,
+        `نوع المصعد: ${data.elevatorType || '-'}`,
+        `الحمولة: ${data.capacity || '-'}`,
+        `عدد الوقفات: ${data.numberOfStops || '-'}`,
+        `الأبواب: ${data.doors || '-'}`,
+        `الكابينة: ${data.cabin || '-'}`,
+        `نوع البئر: ${data.shaftType || '-'}`,
+        `عرض البئر: ${data.shaftWidth || '-'}`,
+        `عمق البئر: ${data.shaftDepth || '-'}`,
+        `عمق الحفرة: ${data.pitDepth || '-'}`,
+        `ارتفاع آخر وقفة: ${data.topFloorHeight || '-'}`,
+        `سعر المصعد: ${data.elevatorPrice || '-'}`,
+        `إضافة الكابينة: ${data.cabinAddition || '-'}`,
+        `إضافة الأبواب: ${data.doorsAddition || '-'}`,
+        `برج حديد: ${data.steelStructure || '-'}`,
+        `خصم: ${data.discount || '-'}`,
+        `السعر النهائي: ${data.finalPrice || '-'}`
+      ].join('\n');
+    }
 
-      const total = elevatorPrice + cabinAddition + doorsAddition + steelStructure + priceCommission - discount;
+    async function generatePdf(){
+      fillPdfTemplate();
+      statusText.textContent = 'جارٍ إنشاء ملف PDF...';
+      statusText.style.color = '';
 
-      finalPriceInput.value = formatMoney(total);
-      finalPricePreview.textContent = formatMoney(total);
-      statusText.textContent = 'تم تحديث السعر النهائي بنجاح.';
+      const canvas = await html2canvas(pdfTemplate, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      const data = getFormData();
+      const safeClientName = (data.clientName || 'Client').replace(/[^\p{L}\p{N}\s-]/gu, '').replace(/\s+/g,'-');
+      const fileName = `SMOU-RFQ-${safeClientName}.pdf`;
+
+      pdf.save(fileName);
+      statusText.textContent = `تم إنشاء الملف: ${fileName}`;
       statusText.style.color = '#8ef0b0';
+
+      return { pdf, fileName, data };
     }
 
-    function resetForm() {
-      form.reset();
-      setTodayDate();
-      finalPriceInput.value = '';
-      finalPricePreview.textContent = '0.00';
-      statusText.textContent = 'تمت إعادة تعيين النموذج.';
-      statusText.style.color = '#ffffff';
-    }
+    document.getElementById('autoSendBtn').addEventListener('click', async () => {
+      try {
+        calculateFinalPrice();
+        const { pdf, fileName, data } = await generatePdf();
+        const blob = pdf.output('blob');
+        const file = new File([blob], fileName, { type: 'application/pdf' });
+        const text = makeSummaryMessage(data);
 
-    ['elevatorPrice','cabinAddition','doorsAddition','steelStructure','priceCommission','discount'].forEach(name => {
-      form.elements[name].addEventListener('input', calculateFinalPrice);
+        if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: 'SMOU RFQ Report',
+            text,
+            files: [file]
+          });
+          statusText.textContent = 'تم إنشاء PDF وفتح المشاركة المباشرة.';
+          statusText.style.color = '#8ef0b0';
+          return;
+        }
+
+        const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+        statusText.textContent = 'تم إنشاء PDF وفتح واتساب. قد تحتاج لإرفاق الملف يدويًا إذا لم يدعم الجهاز مشاركة الملفات مباشرة.';
+        statusText.style.color = '#8ef0b0';
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = 'حدث خطأ أثناء إنشاء التقرير أو مشاركته.';
+        statusText.style.color = '#ff6b6b';
+      }
     });
 
-    document.getElementById('calcBtn').addEventListener('click', calculateFinalPrice);
-    document.getElementById('resetBtn').addEventListener('click', resetForm);
+    ['elevatorPrice','cabinAddition','doorsAddition','steelStructure','discount'].forEach(name => {
+      form.elements[name].addEventListener('input', calculateFinalPrice);
+    });
 
     setTodayDate();
     calculateFinalPrice();
