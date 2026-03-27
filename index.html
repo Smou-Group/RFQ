@@ -368,7 +368,7 @@
 
           <div class="field">
             <label class="label">العمولة <small>Commission</small></label>
-            <input name="consultantCommission" placeholder="العمولة">
+            <input type="number" name="consultantCommission" placeholder="العمولة" min="0" step="0.01">
           </div>
 
           <div class="field">
@@ -383,7 +383,7 @@
 
           <div class="field">
             <label class="label">العمولة <small>Commission</small></label>
-            <input name="contractorCommission" placeholder="العمولة">
+            <input type="number" name="contractorCommission" placeholder="العمولة" min="0" step="0.01">
           </div>
 
           <div class="field full">
@@ -540,7 +540,7 @@
           هذا الزر ينفذ مسارًا مبسطًا: إنشاء ملف PDF ثم فتح مشاركة واتساب أو نافذة المشاركة بالجهاز حسب المتاح.
           <br>
           <strong>ملاحظة:</strong> يتم احتساب السعر النهائي تلقائيًا من خلال:
-          سعر المصعد + إضافة الكابينة + إضافة الأبواب + برج حديد - الخصم
+          سعر المصعد + إضافة الكابينة + إضافة الأبواب + برج حديد + العمولة - الخصم
         </div>
       </div>
     </div>
@@ -654,24 +654,25 @@
     }
 
     function calculateFinalPrice(){
-  const elevatorPrice = toNumber(form.elements['elevatorPrice'].value);
-  const cabinAddition = toNumber(form.elements['cabinAddition'].value);
-  const doorsAddition = toNumber(form.elements['doorsAddition'].value);
-  const steelStructure = toNumber(form.elements['steelStructure'].value);
-  const consultantCommission = toNumber(form.elements['consultantCommission'].value);
-  const contractorCommission = toNumber(form.elements['contractorCommission'].value);
-  const discount = toNumber(form.elements['discount'].value);
+      const elevatorPrice = toNumber(form.elements['elevatorPrice'].value);
+      const cabinAddition = toNumber(form.elements['cabinAddition'].value);
+      const doorsAddition = toNumber(form.elements['doorsAddition'].value);
+      const steelStructure = toNumber(form.elements['steelStructure'].value);
+      const consultantCommission = toNumber(form.elements['consultantCommission'].value);
+      const contractorCommission = toNumber(form.elements['contractorCommission'].value);
+      const totalCommission = consultantCommission + contractorCommission;
+      const discount = toNumber(form.elements['discount'].value);
 
-  const total = elevatorPrice 
-              + cabinAddition 
-              + doorsAddition 
-              + steelStructure 
-              + consultantCommission 
-              + contractorCommission 
-              - discount;
+      const total =
+        elevatorPrice +
+        cabinAddition +
+        doorsAddition +
+        steelStructure +
+        totalCommission -
+        discount;
 
-  form.elements['finalPrice'].value = total.toFixed(2);
-}
+      form.elements['finalPrice'].value = total.toFixed(2);
+    }
 
     function fillPdfTemplate(){
       const data = getFormData();
@@ -684,6 +685,9 @@
     }
 
     function makeSummaryMessage(data){
+      const totalCommission =
+        toNumber(data.consultantCommission) + toNumber(data.contractorCommission);
+
       return [
         'طلب عرض سعر - RFQ',
         `التاريخ: ${data.requestDate || '-'}`,
@@ -698,6 +702,7 @@
         `اسم مكتب المقاول: ${data.contractorOfficeName || '-'}`,
         `رقم هاتف مكتب المقاول: ${data.contractorPhone || '-'}`,
         `عمولة مكتب المقاول: ${data.contractorCommission || '-'}`,
+        `إجمالي العمولة: ${totalCommission.toFixed(2)}`,
         `نوع المصعد: ${data.elevatorType || '-'}`,
         `الحمولة: ${data.capacity || '-'}`,
         `عدد الوقفات: ${data.numberOfStops || '-'}`,
@@ -750,7 +755,9 @@
       }
 
       const data = getFormData();
-      const safeClientName = (data.clientName || 'Client').replace(/[^\p{L}\p{N}\s-]/gu, '').replace(/\s+/g,'-');
+      const safeClientName = (data.clientName || 'Client')
+        .replace(/[^\p{L}\p{N}\s-]/gu, '')
+        .replace(/\s+/g,'-');
       const fileName = `SMOU-RFQ-${safeClientName}.pdf`;
 
       pdf.save(fileName);
@@ -790,7 +797,15 @@
       }
     });
 
-    ['elevatorPrice','cabinAddition','doorsAddition','steelStructure','discount'].forEach(name => {
+    [
+      'elevatorPrice',
+      'cabinAddition',
+      'doorsAddition',
+      'steelStructure',
+      'consultantCommission',
+      'contractorCommission',
+      'discount'
+    ].forEach(name => {
       form.elements[name].addEventListener('input', calculateFinalPrice);
     });
 
