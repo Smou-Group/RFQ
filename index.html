@@ -143,7 +143,8 @@
     }
 
     input::placeholder{color:rgba(255,255,255,.52)}
-    select option{color:#000}
+    input::-webkit-calendar-picker-indicator{display:none !important}
+    select option, datalist option{color:#000}
 
     input:disabled,
     select:disabled{
@@ -468,7 +469,14 @@
 
           <div class="field">
             <label class="label">اسم المكتب الاستشاري <small>Consultant Office</small></label>
-            <input name="consultantOfficeName" placeholder="اسم المكتب الاستشاري">
+            <input
+              name="consultantOfficeName"
+              id="consultantOfficeName"
+              placeholder="اسم المكتب الاستشاري"
+              list="consultantSuggestions"
+              autocomplete="off"
+            >
+            <datalist id="consultantSuggestions"></datalist>
           </div>
 
           <div class="field">
@@ -483,7 +491,14 @@
 
           <div class="field">
             <label class="label">اسم مكتب المقاول <small>Contractor Office</small></label>
-            <input name="contractorOfficeName" placeholder="اسم مكتب المقاول">
+            <input
+              name="contractorOfficeName"
+              id="contractorOfficeName"
+              placeholder="اسم مكتب المقاول"
+              list="contractorSuggestions"
+              autocomplete="off"
+            >
+            <datalist id="contractorSuggestions"></datalist>
           </div>
 
           <div class="field">
@@ -760,57 +775,21 @@
     const pdfTemplate = document.getElementById('pdfTemplate');
     const liftTypeWrap = document.getElementById('liftTypeWrap');
 
-    const italyFields = [
-      'additionalDoorPriceItaly',
-      'additionalCabinPriceItaly',
-      'italianPrice'
-    ];
-
-    const fujiFields = [
-      'additionalDoorPriceFuji',
-      'additionalCabinPriceFuji',
-      'fujiPrice'
-    ];
+    const italyFields = ['additionalDoorPriceItaly','additionalCabinPriceItaly','italianPrice'];
+    const fujiFields = ['additionalDoorPriceFuji','additionalCabinPriceFuji','fujiPrice'];
 
     const fields = [
-      'requestDate',
-      'salesRepresentative',
-      'liftType',
-      'stage',
-      'clientName',
-      'phone1',
-      'phone2',
-      'consultantOfficeName',
-      'consultantPhone',
-      'consultantCommission',
-      'contractorOfficeName',
-      'contractorPhone',
-      'contractorCommission',
-      'elevatorType',
-      'capacity',
-      'numberOfStops',
-      'doors',
-      'additionalDoorPriceItaly',
-      'additionalDoorPriceFuji',
-      'cabin',
-      'additionalCabinPriceItaly',
-      'additionalCabinPriceFuji',
-      'shaftType',
-      'shaftWidth',
-      'shaftDepth',
-      'pitDepth',
-      'topFloorHeight',
-      'italianPrice',
-      'fujiPrice',
-      'discount',
-      'steelStructure',
-      'finalItalianPrice',
-      'finalFujiPrice'
+      'requestDate','salesRepresentative','liftType','stage','clientName','phone1','phone2',
+      'consultantOfficeName','consultantPhone','consultantCommission',
+      'contractorOfficeName','contractorPhone','contractorCommission',
+      'elevatorType','capacity','numberOfStops','doors','additionalDoorPriceItaly',
+      'additionalDoorPriceFuji','cabin','additionalCabinPriceItaly','additionalCabinPriceFuji',
+      'shaftType','shaftWidth','shaftDepth','pitDepth','topFloorHeight',
+      'italianPrice','fujiPrice','discount','steelStructure','finalItalianPrice','finalFujiPrice'
     ];
 
     function setTodayDate(){
-      const now = new Date();
-      document.getElementById('requestDate').value = now.toLocaleString('en-GB');
+      document.getElementById('requestDate').value = new Date().toLocaleString('en-GB');
     }
 
     function toNumber(value){
@@ -860,16 +839,12 @@
 
     function updateLiftTypeBehavior(){
       const { fuji, italy } = getLiftSelections();
-
       setFieldGroupState(italyFields, italy);
       setFieldGroupState(fujiFields, fuji);
-
       toggleVisualBlocks('.brand-italy', italy);
       toggleVisualBlocks('.brand-fuji', fuji);
-
       document.getElementById('italyPriceCard').style.display = italy ? '' : 'none';
       document.getElementById('fujiPriceCard').style.display = fuji ? '' : 'none';
-
       calculateFinalPrices();
     }
 
@@ -883,13 +858,10 @@
 
       const italianPrice = italy ? toNumber(form.elements['italianPrice'].value) : 0;
       const fujiPrice = fuji ? toNumber(form.elements['fujiPrice'].value) : 0;
-
       const additionalDoorPriceItaly = italy ? toNumber(form.elements['additionalDoorPriceItaly'].value) : 0;
       const additionalDoorPriceFuji = fuji ? toNumber(form.elements['additionalDoorPriceFuji'].value) : 0;
-
       const additionalCabinPriceItaly = italy ? toNumber(form.elements['additionalCabinPriceItaly'].value) : 0;
       const additionalCabinPriceFuji = fuji ? toNumber(form.elements['additionalCabinPriceFuji'].value) : 0;
-
       const steelStructure = toNumber(form.elements['steelStructure'].value);
       const discount = toNumber(form.elements['discount'].value);
       const commissionTotal = getCommissionTotal();
@@ -919,7 +891,6 @@
 
     function getFormData(){
       calculateFinalPrices();
-
       return {
         requestDate: document.getElementById('requestDate').value,
         salesRepresentative: form.elements['salesRepresentative'].value,
@@ -993,9 +964,7 @@
       try {
         const response = await fetch(SHEETS_WEBAPP_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(data)
         });
 
@@ -1014,6 +983,25 @@
 
       } catch (error) {
         throw new Error('خطأ في الاتصال: ' + error.message);
+      }
+    }
+
+    async function loadSuggestions(type, datalistId) {
+      try {
+        const url = `${SHEETS_WEBAPP_URL}?action=suggestions&type=${encodeURIComponent(type)}`;
+        const response = await fetch(url);
+        const result = await response.json();
+
+        if (!result.success || !Array.isArray(result.suggestions)) return;
+
+        const datalist = document.getElementById(datalistId);
+        if (!datalist) return;
+
+        datalist.innerHTML = result.suggestions
+          .map(item => `<option value="${String(item).replace(/"/g, '&quot;')}"></option>`)
+          .join('');
+      } catch (error) {
+        console.error(`Failed to load ${type} suggestions:`, error);
       }
     }
 
@@ -1039,18 +1027,9 @@
         }
 
         if ([
-          'consultantCommission',
-          'contractorCommission',
-          'additionalDoorPriceItaly',
-          'additionalDoorPriceFuji',
-          'additionalCabinPriceItaly',
-          'additionalCabinPriceFuji',
-          'italianPrice',
-          'fujiPrice',
-          'discount',
-          'steelStructure',
-          'finalItalianPrice',
-          'finalFujiPrice'
+          'consultantCommission','contractorCommission','additionalDoorPriceItaly','additionalDoorPriceFuji',
+          'additionalCabinPriceItaly','additionalCabinPriceFuji','italianPrice','fujiPrice','discount',
+          'steelStructure','finalItalianPrice','finalFujiPrice'
         ].includes(key)) {
           el.textContent = data[key] !== '' ? formatMoney(data[key]) : '-';
         } else {
@@ -1209,16 +1188,8 @@
 
     function bindCalculationEvents(){
       [
-        'consultantCommission',
-        'contractorCommission',
-        'additionalDoorPriceItaly',
-        'additionalDoorPriceFuji',
-        'additionalCabinPriceItaly',
-        'additionalCabinPriceFuji',
-        'italianPrice',
-        'fujiPrice',
-        'discount',
-        'steelStructure'
+        'consultantCommission','contractorCommission','additionalDoorPriceItaly','additionalDoorPriceFuji',
+        'additionalCabinPriceItaly','additionalCabinPriceFuji','italianPrice','fujiPrice','discount','steelStructure'
       ].forEach(name => {
         const el = form.elements[name];
         if(el){
@@ -1247,6 +1218,8 @@
     setTodayDate();
     bindCalculationEvents();
     updateLiftTypeBehavior();
+    loadSuggestions('consultant', 'consultantSuggestions');
+    loadSuggestions('contractor', 'contractorSuggestions');
   </script>
 </body>
 </html>
