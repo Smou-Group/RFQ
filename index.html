@@ -13,7 +13,6 @@
   <style>
     :root{
       --navy:#0b1b2b;
-      --navy2:#12324f;
       --glass:rgba(255,255,255,.10);
       --border:rgba(255,255,255,.18);
       --text:#ffffff;
@@ -22,6 +21,8 @@
       --bg:#071320;
       --danger:#ff5c5c;
       --ok:#17b26a;
+      --disabled-bg:rgba(255,255,255,.04);
+      --disabled-text:rgba(255,255,255,.45);
     }
 
     *{box-sizing:border-box}
@@ -127,7 +128,7 @@
       font-weight:500
     }
 
-    input,select,textarea{
+    input,select{
       width:100%;
       padding:14px 16px;
       border-radius:18px;
@@ -141,8 +142,21 @@
       transition:.2s ease;
     }
 
-    input::placeholder,textarea::placeholder{color:rgba(255,255,255,.52)}
+    input::placeholder{color:rgba(255,255,255,.52)}
     select option{color:#000}
+
+    input:disabled,
+    select:disabled{
+      background:var(--disabled-bg)!important;
+      color:var(--disabled-text)!important;
+      cursor:not-allowed;
+      opacity:.75;
+    }
+
+    .disabled-block{
+      opacity:.6;
+      transition:.2s ease;
+    }
 
     .checkbox-wrap{
       display:flex;
@@ -261,6 +275,10 @@
       font-size:13px;
       color:var(--muted);
       line-height:1.8;
+    }
+
+    .hidden-price{
+      display:none;
     }
 
     .error-field{
@@ -545,14 +563,14 @@
             </select>
           </div>
 
-          <div class="field">
+          <div class="field brand-italy" id="fieldAdditionalDoorItaly">
             <label class="label">سعر الأبواب الإضافية - إيطالي <small>Additional Door Price-Italy</small></label>
-            <input type="number" name="additionalDoorPriceItaly" id="additionalDoorPriceItaly" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الأبواب الإضافية - إيطالي" value="0">
+            <input type="number" name="additionalDoorPriceItaly" id="additionalDoorPriceItaly" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
-          <div class="field">
+          <div class="field brand-fuji" id="fieldAdditionalDoorFuji">
             <label class="label">سعر الأبواب الإضافية - فوجي <small>Additional Door Price-Fuji</small></label>
-            <input type="number" name="additionalDoorPriceFuji" id="additionalDoorPriceFuji" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الأبواب الإضافية - فوجي" value="0">
+            <input type="number" name="additionalDoorPriceFuji" id="additionalDoorPriceFuji" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
           <div class="field">
@@ -568,14 +586,14 @@
             </select>
           </div>
 
-          <div class="field">
+          <div class="field brand-italy" id="fieldAdditionalCabinItaly">
             <label class="label">سعر الكابينة الإضافية - إيطالي <small>Additional Cabin Price-Italy</small></label>
-            <input type="number" name="additionalCabinPriceItaly" id="additionalCabinPriceItaly" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الكابينة الإضافية - إيطالي" value="0">
+            <input type="number" name="additionalCabinPriceItaly" id="additionalCabinPriceItaly" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
-          <div class="field">
+          <div class="field brand-fuji" id="fieldAdditionalCabinFuji">
             <label class="label">سعر الكابينة الإضافية - فوجي <small>Additional Cabin Price-Fuji</small></label>
-            <input type="number" name="additionalCabinPriceFuji" id="additionalCabinPriceFuji" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الكابينة الإضافية - فوجي" value="0">
+            <input type="number" name="additionalCabinPriceFuji" id="additionalCabinPriceFuji" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
           <div class="field full">
@@ -615,14 +633,14 @@
             <input name="topFloorHeight" placeholder="نص سم" required data-label="ارتفاع آخر وقفة">
           </div>
 
-          <div class="field">
+          <div class="field brand-italy" id="fieldItalianPrice">
             <label class="label">سعر المصعد الإيطالي <small>Italian Price</small></label>
-            <input type="number" name="italianPrice" id="italianPrice" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر المصعد الإيطالي" value="0">
+            <input type="number" name="italianPrice" id="italianPrice" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
-          <div class="field">
+          <div class="field brand-fuji" id="fieldFujiPrice">
             <label class="label">سعر المصعد الفوجي <small>Fuji Price</small></label>
-            <input type="number" name="fujiPrice" id="fujiPrice" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر المصعد الفوجي" value="0">
+            <input type="number" name="fujiPrice" id="fujiPrice" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
           <div class="field">
@@ -643,14 +661,14 @@
               </div>
 
               <div class="priceGrid">
-                <div class="priceItem">
+                <div class="priceItem" id="italyPriceCard">
                   <h3>السعر النهائي الإيطالي</h3>
                   <div class="priceValue" id="finalItalianPriceDisplay">0.00 AED</div>
                   <input type="hidden" name="finalItalianPrice" id="finalItalianPrice">
                   <div class="priceSub" id="finalItalianPriceBreakdown">-</div>
                 </div>
 
-                <div class="priceItem">
+                <div class="priceItem" id="fujiPriceCard">
                   <h3>السعر النهائي الفوجي</h3>
                   <div class="priceValue" id="finalFujiPriceDisplay">0.00 AED</div>
                   <input type="hidden" name="finalFujiPrice" id="finalFujiPrice">
@@ -671,8 +689,9 @@
 
         <div class="note">
           <strong>آلية الحساب:</strong><br>
-          سعر المصعد الإيطالي النهائي = سعر المصعد الإيطالي + (سعر الأبواب الإضافية - إيطالي) + (سعر الكابينة الإضافية - إيطالي) + العمولة + سعر برج الحديد - الخصم<br>
-          سعر المصعد الفوجي النهائي = سعر المصعد الفوجي + (سعر الأبواب الإضافية - فوجي) + (سعر الكابينة الإضافية - فوجي) + العمولة + سعر برج الحديد - الخصم
+          إذا تم اختيار فوجي فقط، يتم احتساب الفوجي فقط.<br>
+          إذا تم اختيار إيطالي فقط، يتم احتساب الإيطالي فقط.<br>
+          إذا تم اختيار الاثنين، يتم احتساب الاثنين معًا.
         </div>
       </div>
     </div>
@@ -742,6 +761,18 @@
     const pdfTemplate = document.getElementById('pdfTemplate');
     const liftTypeWrap = document.getElementById('liftTypeWrap');
 
+    const italyFields = [
+      'additionalDoorPriceItaly',
+      'additionalCabinPriceItaly',
+      'italianPrice'
+    ];
+
+    const fujiFields = [
+      'additionalDoorPriceFuji',
+      'additionalCabinPriceFuji',
+      'fujiPrice'
+    ];
+
     const fields = [
       'requestDate',
       'salesRepresentative',
@@ -795,10 +826,75 @@
       })} AED`;
     }
 
+    function getLiftSelections(){
+      return {
+        fuji: document.querySelector('input[name="liftType"][value="Fuji"]').checked,
+        italy: document.querySelector('input[name="liftType"][value="Italy"]').checked
+      };
+    }
+
     function getLiftTypes(){
       return [...document.querySelectorAll('input[name="liftType"]:checked')]
         .map(el => el.value)
         .join(' / ');
+    }
+
+    function setFieldGroupState(fieldNames, enabled){
+      fieldNames.forEach(name => {
+        const el = form.elements[name];
+        if(!el) return;
+        el.disabled = !enabled;
+        if(!enabled){
+          el.value = '0';
+          el.classList.remove('error-field');
+        }
+      });
+    }
+
+    function toggleVisualBlocks(selector, enabled){
+      document.querySelectorAll(selector).forEach(block => {
+        if(enabled){
+          block.classList.remove('disabled-block');
+        } else {
+          block.classList.add('disabled-block');
+        }
+      });
+    }
+
+    function updateLiftTypeBehavior(){
+      const { fuji, italy } = getLiftSelections();
+
+      if (fuji && !italy){
+        setFieldGroupState(fujiFields, true);
+        setFieldGroupState(italyFields, false);
+        toggleVisualBlocks('.brand-fuji', true);
+        toggleVisualBlocks('.brand-italy', false);
+        document.getElementById('fujiPriceCard').classList.remove('hidden-price');
+        document.getElementById('italyPriceCard').classList.add('hidden-price');
+      } else if (!fuji && italy){
+        setFieldGroupState(fujiFields, false);
+        setFieldGroupState(italyFields, true);
+        toggleVisualBlocks('.brand-fuji', false);
+        toggleVisualBlocks('.brand-italy', true);
+        document.getElementById('fujiPriceCard').classList.add('hidden-price');
+        document.getElementById('italyPriceCard').classList.remove('hidden-price');
+      } else if (fuji && italy){
+        setFieldGroupState(fujiFields, true);
+        setFieldGroupState(italyFields, true);
+        toggleVisualBlocks('.brand-fuji', true);
+        toggleVisualBlocks('.brand-italy', true);
+        document.getElementById('fujiPriceCard').classList.remove('hidden-price');
+        document.getElementById('italyPriceCard').classList.remove('hidden-price');
+      } else {
+        setFieldGroupState(fujiFields, true);
+        setFieldGroupState(italyFields, true);
+        toggleVisualBlocks('.brand-fuji', true);
+        toggleVisualBlocks('.brand-italy', true);
+        document.getElementById('fujiPriceCard').classList.remove('hidden-price');
+        document.getElementById('italyPriceCard').classList.remove('hidden-price');
+      }
+
+      calculateFinalPrices();
     }
 
     function getCommissionTotal(){
@@ -841,6 +937,8 @@
       const requiredElements = form.querySelectorAll('[required]');
 
       for (const el of requiredElements){
+        if (el.disabled) continue;
+
         const value = (el.value || '').trim();
 
         if(!value){
@@ -870,54 +968,64 @@
     }
 
     function calculateFinalPrices(){
-      const italianPrice = toNumber(form.elements['italianPrice'].value);
-      const fujiPrice = toNumber(form.elements['fujiPrice'].value);
+      const { fuji, italy } = getLiftSelections();
 
-      const additionalDoorPriceItaly = toNumber(form.elements['additionalDoorPriceItaly'].value);
-      const additionalDoorPriceFuji = toNumber(form.elements['additionalDoorPriceFuji'].value);
+      const italianPrice = italy ? toNumber(form.elements['italianPrice'].value) : 0;
+      const fujiPrice = fuji ? toNumber(form.elements['fujiPrice'].value) : 0;
 
-      const additionalCabinPriceItaly = toNumber(form.elements['additionalCabinPriceItaly'].value);
-      const additionalCabinPriceFuji = toNumber(form.elements['additionalCabinPriceFuji'].value);
+      const additionalDoorPriceItaly = italy ? toNumber(form.elements['additionalDoorPriceItaly'].value) : 0;
+      const additionalDoorPriceFuji = fuji ? toNumber(form.elements['additionalDoorPriceFuji'].value) : 0;
+
+      const additionalCabinPriceItaly = italy ? toNumber(form.elements['additionalCabinPriceItaly'].value) : 0;
+      const additionalCabinPriceFuji = fuji ? toNumber(form.elements['additionalCabinPriceFuji'].value) : 0;
 
       const steelStructure = toNumber(form.elements['steelStructure'].value);
       const discount = toNumber(form.elements['discount'].value);
       const commissionTotal = getCommissionTotal();
 
-      const finalItalian =
-        italianPrice +
-        additionalDoorPriceItaly +
-        additionalCabinPriceItaly +
-        commissionTotal +
-        steelStructure -
-        discount;
+      const finalItalian = italy
+        ? italianPrice + additionalDoorPriceItaly + additionalCabinPriceItaly + commissionTotal + steelStructure - discount
+        : 0;
 
-      const finalFuji =
-        fujiPrice +
-        additionalDoorPriceFuji +
-        additionalCabinPriceFuji +
-        commissionTotal +
-        steelStructure -
-        discount;
+      const finalFuji = fuji
+        ? fujiPrice + additionalDoorPriceFuji + additionalCabinPriceFuji + commissionTotal + steelStructure - discount
+        : 0;
 
       document.getElementById('finalItalianPrice').value = finalItalian.toFixed(2);
       document.getElementById('finalFujiPrice').value = finalFuji.toFixed(2);
 
-      document.getElementById('finalItalianPriceDisplay').textContent = formatMoney(finalItalian);
-      document.getElementById('finalFujiPriceDisplay').textContent = formatMoney(finalFuji);
+      document.getElementById('finalItalianPriceDisplay').textContent = italy ? formatMoney(finalItalian) : 'غير مفعل';
+      document.getElementById('finalFujiPriceDisplay').textContent = fuji ? formatMoney(finalFuji) : 'غير مفعل';
 
-      document.getElementById('finalItalianPriceBreakdown').innerHTML =
-        `سعر المصعد الإيطالي ${formatMoney(italianPrice)} + الأبواب الإضافية - إيطالي ${formatMoney(additionalDoorPriceItaly)} + الكابينة الإضافية - إيطالي ${formatMoney(additionalCabinPriceItaly)} + العمولة ${formatMoney(commissionTotal)} + برج الحديد ${formatMoney(steelStructure)} - الخصم ${formatMoney(discount)}`;
+      document.getElementById('finalItalianPriceBreakdown').innerHTML = italy
+        ? `سعر المصعد الإيطالي ${formatMoney(italianPrice)} + الأبواب الإضافية - إيطالي ${formatMoney(additionalDoorPriceItaly)} + الكابينة الإضافية - إيطالي ${formatMoney(additionalCabinPriceItaly)} + العمولة ${formatMoney(commissionTotal)} + برج الحديد ${formatMoney(steelStructure)} - الخصم ${formatMoney(discount)}`
+        : 'تم إلغاء احتساب الإيطالي حسب نوع المصعد المختار';
 
-      document.getElementById('finalFujiPriceBreakdown').innerHTML =
-        `سعر المصعد الفوجي ${formatMoney(fujiPrice)} + الأبواب الإضافية - فوجي ${formatMoney(additionalDoorPriceFuji)} + الكابينة الإضافية - فوجي ${formatMoney(additionalCabinPriceFuji)} + العمولة ${formatMoney(commissionTotal)} + برج الحديد ${formatMoney(steelStructure)} - الخصم ${formatMoney(discount)}`;
+      document.getElementById('finalFujiPriceBreakdown').innerHTML = fuji
+        ? `سعر المصعد الفوجي ${formatMoney(fujiPrice)} + الأبواب الإضافية - فوجي ${formatMoney(additionalDoorPriceFuji)} + الكابينة الإضافية - فوجي ${formatMoney(additionalCabinPriceFuji)} + العمولة ${formatMoney(commissionTotal)} + برج الحديد ${formatMoney(steelStructure)} - الخصم ${formatMoney(discount)}`
+        : 'تم إلغاء احتساب الفوجي حسب نوع المصعد المختار';
     }
 
     function fillPdfTemplate(){
       const data = getFormData();
+      const { fuji, italy } = getLiftSelections();
 
       fields.forEach(key => {
         const el = document.getElementById(`v_${key}`);
         if (!el) return;
+
+        const italyOnly = ['additionalDoorPriceItaly', 'additionalCabinPriceItaly', 'italianPrice', 'finalItalianPrice'];
+        const fujiOnly = ['additionalDoorPriceFuji', 'additionalCabinPriceFuji', 'fujiPrice', 'finalFujiPrice'];
+
+        if (italyOnly.includes(key) && !italy) {
+          el.textContent = 'غير مفعل';
+          return;
+        }
+
+        if (fujiOnly.includes(key) && !fuji) {
+          el.textContent = 'غير مفعل';
+          return;
+        }
 
         if ([
           'consultantCommission',
@@ -945,6 +1053,7 @@
 
     function makeSummaryMessage(data){
       const totalCommission = getCommissionTotal();
+      const { fuji, italy } = getLiftSelections();
 
       return [
         'طلب عرض سعر - RFQ',
@@ -966,22 +1075,22 @@
         `الحمولة: ${data.capacity || '-'}`,
         `الوقفات: ${data.numberOfStops || '-'}`,
         `الأبواب: ${data.doors || '-'}`,
-        `سعر الأبواب الإضافية - إيطالي: ${formatMoney(data.additionalDoorPriceItaly || 0)}`,
-        `سعر الأبواب الإضافية - فوجي: ${formatMoney(data.additionalDoorPriceFuji || 0)}`,
+        `سعر الأبواب الإضافية - إيطالي: ${italy ? formatMoney(data.additionalDoorPriceItaly || 0) : 'غير مفعل'}`,
+        `سعر الأبواب الإضافية - فوجي: ${fuji ? formatMoney(data.additionalDoorPriceFuji || 0) : 'غير مفعل'}`,
         `لون الكابينة: ${data.cabin || '-'}`,
-        `سعر الكابينة الإضافية - إيطالي: ${formatMoney(data.additionalCabinPriceItaly || 0)}`,
-        `سعر الكابينة الإضافية - فوجي: ${formatMoney(data.additionalCabinPriceFuji || 0)}`,
+        `سعر الكابينة الإضافية - إيطالي: ${italy ? formatMoney(data.additionalCabinPriceItaly || 0) : 'غير مفعل'}`,
+        `سعر الكابينة الإضافية - فوجي: ${fuji ? formatMoney(data.additionalCabinPriceFuji || 0) : 'غير مفعل'}`,
         `نوع البئر: ${data.shaftType || '-'}`,
         `العرض: ${data.shaftWidth || '-'}`,
         `العمق: ${data.shaftDepth || '-'}`,
         `عمق الحفرة: ${data.pitDepth || '-'}`,
         `ارتفاع آخر وقفة: ${data.topFloorHeight || '-'}`,
-        `سعر المصعد الإيطالي: ${formatMoney(data.italianPrice || 0)}`,
-        `سعر المصعد الفوجي: ${formatMoney(data.fujiPrice || 0)}`,
+        `سعر المصعد الإيطالي: ${italy ? formatMoney(data.italianPrice || 0) : 'غير مفعل'}`,
+        `سعر المصعد الفوجي: ${fuji ? formatMoney(data.fujiPrice || 0) : 'غير مفعل'}`,
         `الخصم: ${formatMoney(data.discount || 0)}`,
         `سعر برج الحديد: ${formatMoney(data.steelStructure || 0)}`,
-        `السعر النهائي الإيطالي: ${formatMoney(data.finalItalianPrice || 0)}`,
-        `السعر النهائي الفوجي: ${formatMoney(data.finalFujiPrice || 0)}`
+        `السعر النهائي الإيطالي: ${italy ? formatMoney(data.finalItalianPrice || 0) : 'غير مفعل'}`,
+        `السعر النهائي الفوجي: ${fuji ? formatMoney(data.finalFujiPrice || 0) : 'غير مفعل'}`
       ].join('\\n');
     }
 
@@ -1073,42 +1182,46 @@
       }
     }
 
-    [
-      'consultantCommission',
-      'contractorCommission',
-      'additionalDoorPriceItaly',
-      'additionalDoorPriceFuji',
-      'additionalCabinPriceItaly',
-      'additionalCabinPriceFuji',
-      'italianPrice',
-      'fujiPrice',
-      'discount',
-      'steelStructure'
-    ].forEach(name => {
-      const el = form.elements[name];
-      if(el){
-        el.addEventListener('input', calculateFinalPrices);
-        el.addEventListener('change', calculateFinalPrices);
-        el.addEventListener('input', () => el.classList.remove('error-field'));
-      }
-    });
-
-    form.querySelectorAll('input, select').forEach(el => {
-      el.addEventListener('input', () => el.classList.remove('error-field'));
-      el.addEventListener('change', () => el.classList.remove('error-field'));
-    });
-
-    document.querySelectorAll('input[name="liftType"]').forEach(el => {
-      el.addEventListener('change', () => {
-        liftTypeWrap.classList.remove('error-field');
+    function bindCalculationEvents(){
+      [
+        'consultantCommission',
+        'contractorCommission',
+        'additionalDoorPriceItaly',
+        'additionalDoorPriceFuji',
+        'additionalCabinPriceItaly',
+        'additionalCabinPriceFuji',
+        'italianPrice',
+        'fujiPrice',
+        'discount',
+        'steelStructure'
+      ].forEach(name => {
+        const el = form.elements[name];
+        if(el){
+          el.addEventListener('input', calculateFinalPrices);
+          el.addEventListener('change', calculateFinalPrices);
+          el.addEventListener('input', () => el.classList.remove('error-field'));
+        }
       });
-    });
+
+      form.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', () => el.classList.remove('error-field'));
+        el.addEventListener('change', () => el.classList.remove('error-field'));
+      });
+
+      document.querySelectorAll('input[name="liftType"]').forEach(el => {
+        el.addEventListener('change', () => {
+          liftTypeWrap.classList.remove('error-field');
+          updateLiftTypeBehavior();
+        });
+      });
+    }
 
     document.getElementById('autoSendBtn').addEventListener('click', handleSubmit);
     document.getElementById('pdfOnlyBtn').addEventListener('click', handlePdfOnly);
 
     setTodayDate();
-    calculateFinalPrices();
+    bindCalculationEvents();
+    updateLiftTypeBehavior();
   </script>
 </body>
 </html>
