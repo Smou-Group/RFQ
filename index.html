@@ -4,9 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>طلب عرض سعر | SMOU GROUP</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -762,7 +764,8 @@
     const form = document.getElementById('rfqForm');
     const statusText = document.getElementById('statusText');
     const pdfTemplate = document.getElementById('pdfTemplate');
-    const liftTypeWrap = document.getElementById('liftTypeWrap');
+    const autoSendBtn = document.getElementById('autoSendBtn');
+    const pdfOnlyBtn = document.getElementById('pdfOnlyBtn');
 
     const italyFields = [
       'additionalDoorPriceItaly',
@@ -847,127 +850,47 @@
         const el = form.elements[name];
         if(!el) return;
         el.disabled = !enabled;
+
         if(!enabled){
           el.value = '0';
-          el.classList.remove('error-field');
+        }else if(el.value === ''){
+          el.value = '0';
+        }
+
+        const wrapper = el.closest('.field');
+        if(wrapper){
+          wrapper.classList.toggle('disabled-block', !enabled);
         }
       });
     }
 
-    function toggleVisualBlocks(selector, enabled){
-      document.querySelectorAll(selector).forEach(block => {
-        if(enabled){
-          block.classList.remove('disabled-block');
-        } else {
-          block.classList.add('disabled-block');
-        }
-      });
-    }
-
-    function updateLiftTypeBehavior(){
+    function updateLiftVisibility(){
       const { fuji, italy } = getLiftSelections();
 
-      if (fuji && !italy){
-        setFieldGroupState(fujiFields, true);
-        setFieldGroupState(italyFields, false);
-        toggleVisualBlocks('.brand-fuji', true);
-        toggleVisualBlocks('.brand-italy', false);
-        document.getElementById('fujiPriceCard').classList.remove('hidden-price');
-        document.getElementById('italyPriceCard').classList.add('hidden-price');
-      } else if (!fuji && italy){
-        setFieldGroupState(fujiFields, false);
-        setFieldGroupState(italyFields, true);
-        toggleVisualBlocks('.brand-fuji', false);
-        toggleVisualBlocks('.brand-italy', true);
-        document.getElementById('fujiPriceCard').classList.add('hidden-price');
-        document.getElementById('italyPriceCard').classList.remove('hidden-price');
-      } else if (fuji && italy){
-        setFieldGroupState(fujiFields, true);
-        setFieldGroupState(italyFields, true);
-        toggleVisualBlocks('.brand-fuji', true);
-        toggleVisualBlocks('.brand-italy', true);
-        document.getElementById('fujiPriceCard').classList.remove('hidden-price');
-        document.getElementById('italyPriceCard').classList.remove('hidden-price');
-      } else {
-        setFieldGroupState(fujiFields, true);
-        setFieldGroupState(italyFields, true);
-        toggleVisualBlocks('.brand-fuji', true);
-        toggleVisualBlocks('.brand-italy', true);
-        document.getElementById('fujiPriceCard').classList.remove('hidden-price');
-        document.getElementById('italyPriceCard').classList.remove('hidden-price');
+      setFieldGroupState(italyFields, italy);
+      setFieldGroupState(fujiFields, fuji);
+
+      document.getElementById('italyPriceCard').style.display = italy ? '' : 'none';
+      document.getElementById('fujiPriceCard').style.display = fuji ? '' : 'none';
+
+      if(!italy){
+        document.getElementById('finalItalianPrice').value = '0.00';
+        document.getElementById('finalItalianPriceDisplay').textContent = 'غير مفعل';
+        document.getElementById('finalItalianPriceBreakdown').textContent = 'تم إلغاء احتساب الإيطالي حسب نوع المصعد المختار';
+      }
+
+      if(!fuji){
+        document.getElementById('finalFujiPrice').value = '0.00';
+        document.getElementById('finalFujiPriceDisplay').textContent = 'غير مفعل';
+        document.getElementById('finalFujiPriceBreakdown').textContent = 'تم إلغاء احتساب الفوجي حسب نوع المصعد المختار';
       }
 
       calculateFinalPrices();
     }
 
     function getCommissionTotal(){
-      const consultantCommission = toNumber(form.elements['consultantCommission'].value);
-      const contractorCommission = toNumber(form.elements['contractorCommission'].value);
-      return consultantCommission + contractorCommission;
-    }
-
-    function getFormData(){
-      const fd = new FormData(form);
-      const data = {};
-      fields.forEach(key => {
-        if (key === 'liftType') {
-          data[key] = getLiftTypes();
-        } else {
-          data[key] = (fd.get(key) || '').toString().trim();
-        }
-      });
-      return data;
-    }
-
-    function clearErrors(){
-      form.querySelectorAll('.error-field').forEach(el => el.classList.remove('error-field'));
-      liftTypeWrap.classList.remove('error-field');
-      statusText.className = 'status';
-    }
-
-    function setError(element, message){
-      clearErrors();
-      if(element){
-        element.classList.add('error-field');
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(() => element.focus(), 250);
-      }
-      statusText.textContent = message;
-      statusText.classList.add('error');
-    }
-
-    function validateForm(){
-      const requiredElements = form.querySelectorAll('[required]');
-
-      for (const el of requiredElements){
-        if (el.disabled) continue;
-
-        const value = (el.value || '').trim();
-
-        if(!value){
-          const label = el.dataset.label || 'هذا الحقل';
-          setError(el, `خطأ: يرجى تعبئة حقل "${label}"`);
-          return false;
-        }
-
-        if(el.type === 'number' && toNumber(el.value) < 0){
-          const label = el.dataset.label || 'هذا الحقل';
-          setError(el, `خطأ: قيمة "${label}" يجب أن تكون صفر أو أكثر`);
-          return false;
-        }
-      }
-
-      const selectedLiftTypes = document.querySelectorAll('input[name="liftType"]:checked');
-      if(selectedLiftTypes.length === 0){
-        clearErrors();
-        liftTypeWrap.classList.add('error-field');
-        liftTypeWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        statusText.textContent = 'خطأ: يرجى اختيار نوع المصعد';
-        statusText.classList.add('error');
-        return false;
-      }
-
-      return true;
+      return toNumber(form.elements['consultantCommission'].value) +
+             toNumber(form.elements['contractorCommission'].value);
     }
 
     function calculateFinalPrices(){
@@ -1009,22 +932,107 @@
         : 'تم إلغاء احتساب الفوجي حسب نوع المصعد المختار';
     }
 
+    function getFormData(){
+      calculateFinalPrices();
+
+      return {
+        requestDate: form.elements['requestDate'].value || '',
+        salesRepresentative: form.elements['salesRepresentative'].value || '',
+        liftType: getLiftTypes(),
+        stage: form.elements['stage'].value || '',
+        clientName: form.elements['clientName'].value || '',
+        phone1: form.elements['phone1'].value || '',
+        phone2: form.elements['phone2'].value || '',
+        consultantOfficeName: form.elements['consultantOfficeName'].value || '',
+        consultantPhone: form.elements['consultantPhone'].value || '',
+        consultantCommission: form.elements['consultantCommission'].value || '0',
+        contractorOfficeName: form.elements['contractorOfficeName'].value || '',
+        contractorPhone: form.elements['contractorPhone'].value || '',
+        contractorCommission: form.elements['contractorCommission'].value || '0',
+        elevatorType: form.elements['elevatorType'].value || '',
+        capacity: form.elements['capacity'].value || '',
+        numberOfStops: form.elements['numberOfStops'].value || '',
+        doors: form.elements['doors'].value || '',
+        additionalDoorPriceItaly: form.elements['additionalDoorPriceItaly'].disabled ? '0' : (form.elements['additionalDoorPriceItaly'].value || '0'),
+        additionalDoorPriceFuji: form.elements['additionalDoorPriceFuji'].disabled ? '0' : (form.elements['additionalDoorPriceFuji'].value || '0'),
+        cabin: form.elements['cabin'].value || '',
+        additionalCabinPriceItaly: form.elements['additionalCabinPriceItaly'].disabled ? '0' : (form.elements['additionalCabinPriceItaly'].value || '0'),
+        additionalCabinPriceFuji: form.elements['additionalCabinPriceFuji'].disabled ? '0' : (form.elements['additionalCabinPriceFuji'].value || '0'),
+        shaftType: form.elements['shaftType'].value || '',
+        shaftWidth: form.elements['shaftWidth'].value || '',
+        shaftDepth: form.elements['shaftDepth'].value || '',
+        pitDepth: form.elements['pitDepth'].value || '',
+        topFloorHeight: form.elements['topFloorHeight'].value || '',
+        italianPrice: form.elements['italianPrice'].disabled ? '0' : (form.elements['italianPrice'].value || '0'),
+        fujiPrice: form.elements['fujiPrice'].disabled ? '0' : (form.elements['fujiPrice'].value || '0'),
+        discount: form.elements['discount'].value || '0',
+        steelStructure: form.elements['steelStructure'].value || '0',
+        finalItalianPrice: document.getElementById('finalItalianPrice').value || '0',
+        finalFujiPrice: document.getElementById('finalFujiPrice').value || '0'
+      };
+    }
+
+    function clearErrors(){
+      form.querySelectorAll('.error-field').forEach(el => el.classList.remove('error-field'));
+    }
+
+    function validateForm(){
+      const requiredElements = form.querySelectorAll('[required]');
+      let isValid = true;
+      let firstInvalid = null;
+
+      requiredElements.forEach(el => {
+        const value = (el.value || '').trim();
+        if(!value){
+          isValid = false;
+          el.classList.add('error-field');
+          if(!firstInvalid) firstInvalid = el;
+        }
+      });
+
+      const liftChecked = document.querySelectorAll('input[name="liftType"]:checked').length > 0;
+      if(!liftChecked){
+        isValid = false;
+        document.getElementById('liftTypeWrap').classList.add('error-field');
+        if(!firstInvalid) firstInvalid = document.getElementById('liftTypeWrap');
+      }else{
+        document.getElementById('liftTypeWrap').classList.remove('error-field');
+      }
+
+      if(!isValid){
+        statusText.textContent = 'يرجى تعبئة جميع الحقول المطلوبة.';
+        statusText.className = 'status error';
+        firstInvalid?.scrollIntoView({ behavior:'smooth', block:'center' });
+      }
+
+      return isValid;
+    }
+
     async function saveToGoogleSheet() {
       const data = getFormData();
 
-      const response = await fetch(SHEETS_WEBAPP_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        },
-        body: JSON.stringify(data)
-      });
+      let response;
+      try {
+        response = await fetch(SHEETS_WEBAPP_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(data)
+        });
+      } catch (networkError) {
+        throw new Error('تعذر الاتصال بـ Google Sheet أو Apps Script');
+      }
 
       let result;
       try {
         result = await response.json();
       } catch (e) {
-        throw new Error('تعذر قراءة رد Google Sheet');
+        throw new Error('رد Google Sheet ليس بصيغة JSON صحيحة');
+      }
+
+      if (!response.ok) {
+        throw new Error(result.message || `HTTP Error: ${response.status}`);
       }
 
       if (!result.success) {
@@ -1080,7 +1088,6 @@
     }
 
     function makeSummaryMessage(data){
-      const totalCommission = getCommissionTotal();
       const { fuji, italy } = getLiftSelections();
 
       return [
@@ -1098,7 +1105,6 @@
         `اسم مكتب المقاول: ${data.contractorOfficeName || '-'}`,
         `رقم هاتف المقاول: ${data.contractorPhone || '-'}`,
         `عمولة مكتب المقاول: ${formatMoney(data.contractorCommission || 0)}`,
-        `إجمالي العمولة: ${formatMoney(totalCommission)}`,
         `بيانات المصعد: ${data.elevatorType || '-'}`,
         `الحمولة: ${data.capacity || '-'}`,
         `الوقفات: ${data.numberOfStops || '-'}`,
@@ -1154,12 +1160,12 @@
       if(!validateForm()) return;
 
       try{
-        statusText.textContent = 'جارٍ حفظ البيانات في Google Sheet...';
+        statusText.textContent = 'جارٍ حفظ البيانات في Google Sheet.';
         statusText.className = 'status';
 
         await saveToGoogleSheet();
 
-        statusText.textContent = 'تم حفظ البيانات، جارٍ إنشاء ملف PDF...';
+        statusText.textContent = 'تم حفظ البيانات، جارٍ إنشاء ملف PDF.';
 
         const { pdf, fileName } = await buildPdf();
         pdf.save(fileName);
@@ -1180,12 +1186,12 @@
       if(!validateForm()) return;
 
       try{
-        statusText.textContent = 'جارٍ حفظ البيانات في Google Sheet...';
+        statusText.textContent = 'جارٍ حفظ البيانات في Google Sheet.';
         statusText.className = 'status';
 
         await saveToGoogleSheet();
 
-        statusText.textContent = 'تم حفظ البيانات، جارٍ إنشاء ملف PDF...';
+        statusText.textContent = 'تم حفظ البيانات، جارٍ إنشاء ملف PDF.';
 
         const { pdf, fileName, data } = await buildPdf();
         pdf.save(fileName);
@@ -1218,46 +1224,24 @@
       }
     }
 
-    function bindCalculationEvents(){
-      [
-        'consultantCommission',
-        'contractorCommission',
-        'additionalDoorPriceItaly',
-        'additionalDoorPriceFuji',
-        'additionalCabinPriceItaly',
-        'additionalCabinPriceFuji',
-        'italianPrice',
-        'fujiPrice',
-        'discount',
-        'steelStructure'
-      ].forEach(name => {
-        const el = form.elements[name];
-        if(el){
-          el.addEventListener('input', calculateFinalPrices);
-          el.addEventListener('change', calculateFinalPrices);
-          el.addEventListener('input', () => el.classList.remove('error-field'));
-        }
-      });
-
+    function bindRealtimeCalculation(){
       form.querySelectorAll('input, select').forEach(el => {
-        el.addEventListener('input', () => el.classList.remove('error-field'));
-        el.addEventListener('change', () => el.classList.remove('error-field'));
+        el.addEventListener('input', calculateFinalPrices);
+        el.addEventListener('change', calculateFinalPrices);
       });
 
       document.querySelectorAll('input[name="liftType"]').forEach(el => {
-        el.addEventListener('change', () => {
-          liftTypeWrap.classList.remove('error-field');
-          updateLiftTypeBehavior();
-        });
+        el.addEventListener('change', updateLiftVisibility);
       });
     }
 
-    document.getElementById('autoSendBtn').addEventListener('click', handleSubmit);
-    document.getElementById('pdfOnlyBtn').addEventListener('click', handlePdfOnly);
-
     setTodayDate();
-    bindCalculationEvents();
-    updateLiftTypeBehavior();
+    updateLiftVisibility();
+    bindRealtimeCalculation();
+    calculateFinalPrices();
+
+    autoSendBtn.addEventListener('click', handleSubmit);
+    pdfOnlyBtn.addEventListener('click', handlePdfOnly);
   </script>
 </body>
 </html>
