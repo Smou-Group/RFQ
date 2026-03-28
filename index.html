@@ -41,6 +41,7 @@
       padding:28px 16px 40px;
       background:linear-gradient(180deg, rgba(8,24,40,.70), rgba(5,15,26,.88));
     }
+
     .hero::before{
       content:"";
       position:absolute;
@@ -93,6 +94,7 @@
       gap:12px;
       margin-bottom:16px
     }
+
     .sectionTitle{font-size:20px;font-weight:800}
     .divider{
       flex:1;
@@ -119,6 +121,7 @@
       font-weight:700;
       color:#fff
     }
+
     .label small{
       opacity:.8;
       font-weight:500
@@ -150,6 +153,7 @@
       border:1px solid rgba(255,255,255,.16);
       background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.08));
       box-shadow:var(--shadow);
+      transition:.2s ease;
     }
 
     .checkbox-item{
@@ -439,13 +443,13 @@
           </div>
 
           <div class="field">
-            <label class="label">رقم الهاتف 1 <small>Phone Number 1</small></label>
-            <input name="phone1" placeholder="رقم الهاتف 1" required data-label="رقم الهاتف 1">
+            <label class="label">رقم الهاتف1 <small>Phone Number1</small></label>
+            <input name="phone1" placeholder="رقم الهاتف1" required data-label="رقم الهاتف1">
           </div>
 
           <div class="field">
-            <label class="label">رقم الهاتف 2 <small>Phone Number 2</small></label>
-            <input name="phone2" placeholder="رقم الهاتف 2">
+            <label class="label">رقم الهاتف2 <small>Phone Number2</small></label>
+            <input name="phone2" placeholder="رقم الهاتف2">
           </div>
 
           <div class="field">
@@ -460,7 +464,7 @@
 
           <div class="field">
             <label class="label">العمولة <small>Commission</small></label>
-            <input type="number" name="consultantCommission" id="consultantCommission" placeholder="عملة درهم" min="0" step="0.01">
+            <input type="number" name="consultantCommission" id="consultantCommission" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
           <div class="field">
@@ -475,7 +479,7 @@
 
           <div class="field">
             <label class="label">العمولة <small>Commission</small></label>
-            <input type="number" name="contractorCommission" id="contractorCommission" placeholder="عملة درهم" min="0" step="0.01">
+            <input type="number" name="contractorCommission" id="contractorCommission" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
           <div class="field full">
@@ -542,13 +546,13 @@
           </div>
 
           <div class="field">
-            <label class="label">سعر الأبواب الإضافية - إيطالي <small>Additional Door Price - Italy</small></label>
-            <input type="number" name="additionalDoorPriceItaly" id="additionalDoorPriceItaly" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الأبواب الإضافية - إيطالي">
+            <label class="label">سعر الأبواب الإضافية - إيطالي <small>Additional Door Price-Italy</small></label>
+            <input type="number" name="additionalDoorPriceItaly" id="additionalDoorPriceItaly" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الأبواب الإضافية - إيطالي" value="0">
           </div>
 
           <div class="field">
-            <label class="label">سعر الأبواب الإضافية - فوجي <small>Additional Door Price - Fuji</small></label>
-            <input type="number" name="additionalDoorPriceFuji" id="additionalDoorPriceFuji" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الأبواب الإضافية - فوجي">
+            <label class="label">سعر الأبواب الإضافية - فوجي <small>Additional Door Price-Fuji</small></label>
+            <input type="number" name="additionalDoorPriceFuji" id="additionalDoorPriceFuji" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الأبواب الإضافية - فوجي" value="0">
           </div>
 
           <div class="field">
@@ -565,13 +569,13 @@
           </div>
 
           <div class="field">
-            <label class="label">سعر الكابينة الإضافية - إيطالي <small>Additional Cabin Price - Italy</small></label>
-            <input type="number" name="additionalCabinPriceItaly" id="additionalCabinPriceItaly" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الكابينة الإضافية - إيطالي">
+            <label class="label">سعر الكابينة الإضافية - إيطالي <small>Additional Cabin Price-Italy</small></label>
+            <input type="number" name="additionalCabinPriceItaly" id="additionalCabinPriceItaly" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الكابينة الإضافية - إيطالي" value="0">
           </div>
 
           <div class="field">
-            <label class="label">سعر الكابينة الإضافية - فوجي <small>Additional Cabin Price - Fuji</small></label>
-            <input type="number" name="additionalCabinPriceFuji" id="additionalCabinPriceFuji" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الكابينة الإضافية - فوجي">
+            <label class="label">سعر الكابينة الإضافية - فوجي <small>Additional Cabin Price-Fuji</small></label>
+            <input type="number" name="additionalCabinPriceFuji" id="additionalCabinPriceFuji" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر الكابينة الإضافية - فوجي" value="0">
           </div>
 
           <div class="field full">
@@ -593,12 +597,12 @@
 
           <div class="field">
             <label class="label">عرض <small>Width</small></label>
-            <input name="shaftWidth" placeholder="نص سم" required data-label="عرض البئر">
+            <input name="shaftWidth" placeholder="نص سم" required data-label="عرض">
           </div>
 
           <div class="field">
             <label class="label">عمق <small>Depth</small></label>
-            <input name="shaftDepth" placeholder="نص سم" required data-label="عمق البئر">
+            <input name="shaftDepth" placeholder="نص سم" required data-label="عمق">
           </div>
 
           <div class="field">
@@ -613,12 +617,12 @@
 
           <div class="field">
             <label class="label">سعر المصعد الإيطالي <small>Italian Price</small></label>
-            <input type="number" name="italianPrice" id="italianPrice" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر المصعد الإيطالي">
+            <input type="number" name="italianPrice" id="italianPrice" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر المصعد الإيطالي" value="0">
           </div>
 
           <div class="field">
             <label class="label">سعر المصعد الفوجي <small>Fuji Price</small></label>
-            <input type="number" name="fujiPrice" id="fujiPrice" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر المصعد الفوجي">
+            <input type="number" name="fujiPrice" id="fujiPrice" placeholder="عملة درهم" min="0" step="0.01" required data-label="سعر المصعد الفوجي" value="0">
           </div>
 
           <div class="field">
@@ -627,7 +631,7 @@
           </div>
 
           <div class="field">
-            <label class="label">سعر برج الحديد <small>Steel Structure Price</small></label>
+            <label class="label">سعر برج الحديد <small>Steel structure price</small></label>
             <input type="number" name="steelStructure" id="steelStructure" placeholder="عملة درهم" min="0" step="0.01" value="0">
           </div>
 
@@ -660,14 +664,15 @@
 
         <div class="actions">
           <button class="btn success" type="button" id="autoSendBtn">إنشاء PDF وإرسال واتساب</button>
+          <button class="btn success" type="button" id="pdfOnlyBtn">إنشاء PDF فقط</button>
         </div>
 
         <div class="status" id="statusText">جاهز لتعبئة نموذج طلب عرض السعر.</div>
 
         <div class="note">
           <strong>آلية الحساب:</strong><br>
-          السعر النهائي الإيطالي = سعر المصعد الإيطالي + سعر الأبواب الإضافية - إيطالي + سعر الكابينة الإضافية - إيطالي + العمولة + سعر برج الحديد - الخصم<br>
-          السعر النهائي الفوجي = سعر المصعد الفوجي + سعر الأبواب الإضافية - فوجي + سعر الكابينة الإضافية - فوجي + العمولة + سعر برج الحديد - الخصم
+          سعر المصعد الإيطالي النهائي = سعر المصعد الإيطالي + (سعر الأبواب الإضافية - إيطالي) + (سعر الكابينة الإضافية - إيطالي) + العمولة + سعر برج الحديد - الخصم<br>
+          سعر المصعد الفوجي النهائي = سعر المصعد الفوجي + (سعر الأبواب الإضافية - فوجي) + (سعر الكابينة الإضافية - فوجي) + العمولة + سعر برج الحديد - الخصم
         </div>
       </div>
     </div>
@@ -694,8 +699,8 @@
       <tr><th>نوع المصعد / Lift Type</th><td id="v_liftType"></td></tr>
       <tr><th>المرحلة / Stage</th><td id="v_stage"></td></tr>
       <tr><th>اسم العميل / Client Name</th><td id="v_clientName"></td></tr>
-      <tr><th>رقم الهاتف 1 / Phone Number 1</th><td id="v_phone1"></td></tr>
-      <tr><th>رقم الهاتف 2 / Phone Number 2</th><td id="v_phone2"></td></tr>
+      <tr><th>رقم الهاتف1 / Phone Number1</th><td id="v_phone1"></td></tr>
+      <tr><th>رقم الهاتف2 / Phone Number2</th><td id="v_phone2"></td></tr>
       <tr><th>اسم المكتب الاستشاري / Consultant Office</th><td id="v_consultantOfficeName"></td></tr>
       <tr><th>رقم الهاتف / Phone Number</th><td id="v_consultantPhone"></td></tr>
       <tr><th>العمولة / Commission</th><td id="v_consultantCommission"></td></tr>
@@ -723,7 +728,7 @@
       <tr><th>سعر المصعد الإيطالي / Italian Price</th><td id="v_italianPrice"></td></tr>
       <tr><th>سعر المصعد الفوجي / Fuji Price</th><td id="v_fujiPrice"></td></tr>
       <tr><th>الخصم / Discount</th><td id="v_discount"></td></tr>
-      <tr><th>سعر برج الحديد / Steel Structure Price</th><td id="v_steelStructure"></td></tr>
+      <tr><th>سعر برج الحديد / Steel structure price</th><td id="v_steelStructure"></td></tr>
       <tr><th>السعر النهائي الإيطالي / Final Italian Price</th><td id="v_finalItalianPrice"></td></tr>
       <tr><th>السعر النهائي الفوجي / Final Fuji Price</th><td id="v_finalFujiPrice"></td></tr>
     </table>
@@ -834,8 +839,10 @@
 
     function validateForm(){
       const requiredElements = form.querySelectorAll('[required]');
+
       for (const el of requiredElements){
         const value = (el.value || '').trim();
+
         if(!value){
           const label = el.dataset.label || 'هذا الحقل';
           setError(el, `خطأ: يرجى تعبئة حقل "${label}"`);
@@ -946,8 +953,8 @@
         `نوع المصعد: ${data.liftType || '-'}`,
         `المرحلة: ${data.stage || '-'}`,
         `اسم العميل: ${data.clientName || '-'}`,
-        `رقم الهاتف 1: ${data.phone1 || '-'}`,
-        `رقم الهاتف 2: ${data.phone2 || '-'}`,
+        `رقم الهاتف1: ${data.phone1 || '-'}`,
+        `رقم الهاتف2: ${data.phone2 || '-'}`,
         `اسم المكتب الاستشاري: ${data.consultantOfficeName || '-'}`,
         `رقم الهاتف الاستشاري: ${data.consultantPhone || '-'}`,
         `عمولة المكتب الاستشاري: ${formatMoney(data.consultantCommission || 0)}`,
@@ -975,13 +982,11 @@
         `سعر برج الحديد: ${formatMoney(data.steelStructure || 0)}`,
         `السعر النهائي الإيطالي: ${formatMoney(data.finalItalianPrice || 0)}`,
         `السعر النهائي الفوجي: ${formatMoney(data.finalFujiPrice || 0)}`
-      ].join('\n');
+      ].join('\\n');
     }
 
-    async function generatePdfSinglePage(){
+    async function buildPdf(){
       fillPdfTemplate();
-      statusText.textContent = 'جارٍ إنشاء ملف PDF...';
-      statusText.className = 'status';
 
       const canvas = await html2canvas(pdfTemplate, {
         scale: 2,
@@ -993,9 +998,7 @@
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF('p', 'mm', 'a4');
 
-      const pageWidth = 210;
-      const pageHeight = 297;
-      pdf.addImage(imgData, 'JPEG', 0, 0, pageWidth, pageHeight);
+      pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
 
       const data = getFormData();
       const safeClientName = (data.clientName || 'Client')
@@ -1003,9 +1006,30 @@
         .replace(/\s+/g, '-');
 
       const fileName = `SMOU-RFQ-${safeClientName}.pdf`;
-      pdf.save(fileName);
 
       return { pdf, fileName, data };
+    }
+
+    async function handlePdfOnly(){
+      clearErrors();
+      calculateFinalPrices();
+
+      if(!validateForm()) return;
+
+      try{
+        statusText.textContent = 'جارٍ إنشاء ملف PDF...';
+        statusText.className = 'status';
+
+        const { pdf, fileName } = await buildPdf();
+        pdf.save(fileName);
+
+        statusText.textContent = `تم إنشاء ملف PDF بنجاح: ${fileName}`;
+        statusText.className = 'status ok';
+      } catch (err){
+        console.error(err);
+        statusText.textContent = 'حدث خطأ أثناء إنشاء ملف PDF.';
+        statusText.className = 'status error';
+      }
     }
 
     async function handleSubmit(){
@@ -1015,13 +1039,15 @@
       if(!validateForm()) return;
 
       try{
-        const { pdf, fileName, data } = await generatePdfSinglePage();
+        statusText.textContent = 'جارٍ إنشاء ملف PDF...';
+        statusText.className = 'status';
+
+        const { pdf, fileName, data } = await buildPdf();
+        pdf.save(fileName);
+
         const blob = pdf.output('blob');
         const file = new File([blob], fileName, { type: 'application/pdf' });
         const text = makeSummaryMessage(data);
-
-        statusText.textContent = `تم إنشاء الملف بنجاح: ${fileName}`;
-        statusText.classList.add('ok');
 
         if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
           await navigator.share({
@@ -1036,7 +1062,8 @@
 
         const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
         window.open(url, '_blank');
-        statusText.textContent = 'تم إنشاء PDF وفتح واتساب.';
+
+        statusText.textContent = 'تم إنشاء PDF وفتح واتساب. إذا لم يتم إرفاق الملف تلقائيًا، أرفقه يدويًا من التنزيلات.';
         statusText.className = 'status ok';
 
       } catch (err){
@@ -1078,6 +1105,7 @@
     });
 
     document.getElementById('autoSendBtn').addEventListener('click', handleSubmit);
+    document.getElementById('pdfOnlyBtn').addEventListener('click', handlePdfOnly);
 
     setTodayDate();
     calculateFinalPrices();
