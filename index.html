@@ -691,7 +691,8 @@
           <strong>آلية الحساب:</strong><br>
           إذا تم اختيار فوجي فقط، يتم احتساب الفوجي فقط.<br>
           إذا تم اختيار إيطالي فقط، يتم احتساب الإيطالي فقط.<br>
-          إذا تم اختيار الاثنين، يتم احتساب الاثنين معًا.
+          إذا تم اختيار الاثنين، يتم احتساب الاثنين معًا.<br>
+          وعند الضغط على إنشاء PDF أو واتساب يتم حفظ البيانات في Google Sheet أولًا.
         </div>
       </div>
     </div>
@@ -756,6 +757,8 @@
   </div>
 
   <script>
+    const SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyEGnLOIvwd3_Jn-rArpbij5HoKrLPPD33EGETvWaR-cevtqF_mzwtRXdu-9oXC6PDE7Q/exec';
+
     const form = document.getElementById('rfqForm');
     const statusText = document.getElementById('statusText');
     const pdfTemplate = document.getElementById('pdfTemplate');
@@ -1006,6 +1009,31 @@
         : 'تم إلغاء احتساب الفوجي حسب نوع المصعد المختار';
     }
 
+    async function saveToGoogleSheet() {
+      const data = getFormData();
+
+      const response = await fetch(SHEETS_WEBAPP_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(data)
+      });
+
+      let result;
+      try {
+        result = await response.json();
+      } catch (e) {
+        throw new Error('تعذر قراءة رد Google Sheet');
+      }
+
+      if (!result.success) {
+        throw new Error(result.message || 'فشل في حفظ البيانات في Google Sheet');
+      }
+
+      return result;
+    }
+
     function fillPdfTemplate(){
       const data = getFormData();
       const { fuji, italy } = getLiftSelections();
@@ -1091,7 +1119,7 @@
         `سعر برج الحديد: ${formatMoney(data.steelStructure || 0)}`,
         `السعر النهائي الإيطالي: ${italy ? formatMoney(data.finalItalianPrice || 0) : 'غير مفعل'}`,
         `السعر النهائي الفوجي: ${fuji ? formatMoney(data.finalFujiPrice || 0) : 'غير مفعل'}`
-      ].join('\\n');
+      ].join('\n');
     }
 
     async function buildPdf(){
@@ -1126,17 +1154,21 @@
       if(!validateForm()) return;
 
       try{
-        statusText.textContent = 'جارٍ إنشاء ملف PDF...';
+        statusText.textContent = 'جارٍ حفظ البيانات في Google Sheet...';
         statusText.className = 'status';
+
+        await saveToGoogleSheet();
+
+        statusText.textContent = 'تم حفظ البيانات، جارٍ إنشاء ملف PDF...';
 
         const { pdf, fileName } = await buildPdf();
         pdf.save(fileName);
 
-        statusText.textContent = `تم إنشاء ملف PDF بنجاح: ${fileName}`;
+        statusText.textContent = `تم حفظ البيانات وإنشاء ملف PDF بنجاح: ${fileName}`;
         statusText.className = 'status ok';
       } catch (err){
         console.error(err);
-        statusText.textContent = 'حدث خطأ أثناء إنشاء ملف PDF.';
+        statusText.textContent = `حدث خطأ: ${err.message}`;
         statusText.className = 'status error';
       }
     }
@@ -1148,8 +1180,12 @@
       if(!validateForm()) return;
 
       try{
-        statusText.textContent = 'جارٍ إنشاء ملف PDF...';
+        statusText.textContent = 'جارٍ حفظ البيانات في Google Sheet...';
         statusText.className = 'status';
+
+        await saveToGoogleSheet();
+
+        statusText.textContent = 'تم حفظ البيانات، جارٍ إنشاء ملف PDF...';
 
         const { pdf, fileName, data } = await buildPdf();
         pdf.save(fileName);
@@ -1164,7 +1200,7 @@
             text,
             files: [file]
           });
-          statusText.textContent = 'تم إنشاء PDF وفتح المشاركة المباشرة.';
+          statusText.textContent = 'تم حفظ البيانات وإنشاء PDF وفتح المشاركة المباشرة.';
           statusText.className = 'status ok';
           return;
         }
@@ -1172,12 +1208,12 @@
         const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
         window.open(url, '_blank');
 
-        statusText.textContent = 'تم إنشاء PDF وفتح واتساب. إذا لم يتم إرفاق الملف تلقائيًا، أرفقه يدويًا من التنزيلات.';
+        statusText.textContent = 'تم حفظ البيانات وإنشاء PDF وفتح واتساب. إذا لم يتم إرفاق الملف تلقائيًا، أرفقه يدويًا من التنزيلات.';
         statusText.className = 'status ok';
 
       } catch (err){
         console.error(err);
-        statusText.textContent = 'حدث خطأ أثناء إنشاء التقرير أو إرساله.';
+        statusText.textContent = `حدث خطأ: ${err.message}`;
         statusText.className = 'status error';
       }
     }
