@@ -424,7 +424,7 @@
               <option>Hossam Radi - حسام راضي</option>
               <option>Ahmad Al-Attar - احمد العطار</option>
               <option>Mohamed Saqr - محمد صقر</option>
-               <option>Rami Eissa - رامي عيسى</option>
+              <option>Rami Eissa - رامي عيسى</option>
             </select>
           </div>
 
@@ -511,6 +511,31 @@
           <div class="field">
             <label class="label">العمولة <small>Commission</small></label>
             <input type="number" name="contractorCommission" id="contractorCommission" placeholder="عملة درهم" min="0" step="0.01" value="0">
+          </div>
+
+          <div class="field">
+            <label class="label">الإمارة <small>Emirate</small></label>
+            <select name="emirate" required data-label="الإمارة">
+              <option value="">اختر الإمارة</option>
+              <option>أبوظبي</option>
+              <option>العين</option>
+              <option>دبي</option>
+              <option>الشارقة</option>
+              <option>عجمان</option>
+              <option>أم القيوين</option>
+              <option>الفجيرة</option>
+              <option>رأس الخيمة</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label">المنطقة <small>Area</small></label>
+            <input name="area" placeholder="اسم المنطقة" required data-label="المنطقة">
+          </div>
+
+          <div class="field">
+            <label class="label">Plot No. <small>Plot No.</small></label>
+            <input name="plotNo" placeholder="Plot No." required data-label="Plot No.">
           </div>
 
           <div class="field full">
@@ -740,6 +765,9 @@
       <tr><th>اسم مكتب المقاول / Contractor Office</th><td id="v_contractorOfficeName"></td></tr>
       <tr><th>رقم الهاتف / Phone Number</th><td id="v_contractorPhone"></td></tr>
       <tr><th>العمولة / Commission</th><td id="v_contractorCommission"></td></tr>
+      <tr><th>الإمارة / Emirate</th><td id="v_emirate"></td></tr>
+      <tr><th>المنطقة / Area</th><td id="v_area"></td></tr>
+      <tr><th>Plot No.</th><td id="v_plotNo"></td></tr>
 
       <tr><th colspan="2" class="pdf-section">Request Details — تفاصيل الطلب</th></tr>
       <tr><th>بيانات المصعد / Lift Data</th><td id="v_elevatorType"></td></tr>
@@ -770,7 +798,7 @@
   </div>
 
   <script>
-    const SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxqAi3rkNu9WQqYXXeZUiSap-hd8sj1jv6EayOxx_edz2KmatJkk4Gm6ESden-pAngY9w/exec';
+    const SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxAVsMHlYlLu4vi-ddo4JT10cM223LyAY7uaZIPaOAmVQhiqyJovZKAW2DhRbFkvr_PLg/exec';
     const form = document.getElementById('rfqForm');
     const statusText = document.getElementById('statusText');
     const pdfTemplate = document.getElementById('pdfTemplate');
@@ -783,6 +811,7 @@
       'requestDate','salesRepresentative','liftType','stage','clientName','phone1','phone2',
       'consultantOfficeName','consultantPhone','consultantCommission',
       'contractorOfficeName','contractorPhone','contractorCommission',
+      'emirate','area','plotNo',
       'elevatorType','capacity','numberOfStops','doors','additionalDoorPriceItaly',
       'additionalDoorPriceFuji','cabin','additionalCabinPriceItaly','additionalCabinPriceFuji',
       'shaftType','shaftWidth','shaftDepth','pitDepth','topFloorHeight',
@@ -906,6 +935,9 @@
         contractorOfficeName: form.elements['contractorOfficeName'].value,
         contractorPhone: form.elements['contractorPhone'].value,
         contractorCommission: form.elements['contractorCommission'].value,
+        emirate: form.elements['emirate'].value,
+        area: form.elements['area'].value,
+        plotNo: form.elements['plotNo'].value,
         elevatorType: form.elements['elevatorType'].value,
         capacity: form.elements['capacity'].value,
         numberOfStops: form.elements['numberOfStops'].value,
@@ -1060,6 +1092,9 @@
         `اسم مكتب المقاول: ${data.contractorOfficeName || '-'}`,
         `رقم هاتف المقاول: ${data.contractorPhone || '-'}`,
         `عمولة مكتب المقاول: ${formatMoney(data.contractorCommission || 0)}`,
+        `الإمارة: ${data.emirate || '-'}`,
+        `المنطقة: ${data.area || '-'}`,
+        `Plot No.: ${data.plotNo || '-'}`,
         `بيانات المصعد: ${data.elevatorType || '-'}`,
         `الحمولة: ${data.capacity || '-'}`,
         `الوقفات: ${data.numberOfStops || '-'}`,
